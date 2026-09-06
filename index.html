@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yüksek Şuura | Aidat Sistemi</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <aside>
+    <div class="brand"><div class="logo" id="brandLogo">YS</div><div><b>Yüksek Şuura</b><small>Aidat Sistemi</small></div></div>
+    <button class="nav active" data-page="home">🏠 Ana Sayfa</button>
+    <button class="nav" data-page="dues">💳 Aidatlar</button>
+    <button class="nav" data-page="expenses">💸 Giderler</button>
+    <button class="nav" data-page="members">👥 Üyeler</button>
+    <button class="nav" data-page="logs">📋 İşlem Geçmişi</button><button class="nav" data-page="reports">📊 Raporlar</button><button class="nav" data-page="settings" data-admin>⚙️ Site Ayarları</button>
+  </aside>
+  <main>
+    <header class="topbar"><div><h2 id="title">Ana Sayfa</h2><p id="subtitle">Aidat ve kasa durumunu yönetin.</p></div><div id="authArea"></div></header>
+    <section id="home" class="page">
+      <div class="hero"><small id="bannerEyebrow">YÜKSEK ŞUURA</small><h1 id="bannerTitle">Aidat ve kasa yönetimi</h1><p id="bannerText">Tüm veriler ortak veritabanında saklanır.</p></div>
+      <div id="stats" class="stats"></div>
+      <div class="card"><div class="cardhead"><div><h3>Üye Durumu</h3><p>Güncel aidat özeti</p></div><button id="goDues">Aidatlara Git →</button></div><div id="homeTable"></div></div>
+    </section>
+    <section id="dues" class="page hidden"><div class="card"><div class="cardhead"><div><h3>Aidat Takibi</h3><p>Dönem ve ödeme durumlarını yönetin.</p></div><button id="addPeriod" data-admin>+ Dönem Ekle</button></div><div id="periods" class="periods"></div><div id="duesTable"></div></div></section>
+    <section id="expenses" class="page hidden"><div class="card"><div class="searchbar"><input id="expenseSearch" placeholder="🔎 Gider ara veya filtrele..."></div><div class="cardhead"><div><h3>Giderler</h3><p>Kasa harcamaları</p></div><button id="addExpense">+ Gider Ekle</button></div><div id="expenseTable"></div></div></section>
+    <section id="members" class="page hidden"><div class="card"><div class="searchbar"><input id="memberSearch" placeholder="🔎 Üye ara..."></div><div class="cardhead"><div><h3>Üyeler</h3><p>Aktif üyeler</p></div><button id="addMember">+ Üye Ekle</button></div><div id="membersList" class="members"></div></div></section>
+    <section id="logs" class="page hidden"><div class="card"><div class="searchbar"><input id="logSearch" placeholder="🔎 İşlem ara..."></div><h3>İşlem Geçmişi</h3><div id="logsList"></div></div></section>
+<section id="reports" class="page hidden"><div class="card"><div class="cardhead"><div><h3>Raporlar</h3><p>Dönem ve kasa özetlerini dışarı aktarın.</p></div><div class="reportActions"><button id="exportCsv">CSV İndir</button><button id="printReport">Yazdır / PDF</button></div></div><div id="reportPeriod" class="periods"></div><div id="reportSummary"></div><div id="reportTable"></div></div></section>
+<section id="settings" class="page hidden"><div class="card"><h3>Site Ayarları</h3><p>Ana sayfa banner metinlerini ve sol üst logoyu düzenleyin.</p><form id="settingsForm" class="settingsForm"><label>Üst küçük başlık</label><input id="setEyebrow" placeholder="YÜKSEK ŞUURA"><label>Banner başlığı</label><input id="setTitle" placeholder="Aidat ve kasa yönetimi"><label>Banner açıklaması</label><textarea id="setText" placeholder="Tüm veriler ortak veritabanında saklanır."></textarea><label>Logo yükle</label><input id="logoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"><div id="logoPreview" class="logoPreview"></div><label>Logo görsel bağlantısı (isteğe bağlı)</label><input id="setLogo" placeholder="https://.../logo.png"><small>Bilgisayarından logo yükleyebilir veya mevcut görsel bağlantısını kullanabilirsin.</small><div class="actions"><button class="primary">Ayarları Kaydet</button></div></form></div></section>
+  </main>
+</div>
+<div id="modal" class="modal hidden"><div id="modalContent" class="modalbox"></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+</body>
+</html>
