@@ -6,7 +6,7 @@ const anon="sb_publishable__FvHp-RV7UHiWF0H9Y5Tug_yfMGyTX9";
 
 export async function POST(req){
  try{
-  const secret=process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const secret=process.env.SUPABASE_SERVICE_ROLE_KEY; // production secret
   if(!secret)return NextResponse.json({error:"Sunucu davet anahtarı ayarlanmamış."},{status:503});
   const token=(req.headers.get("authorization")||"").replace(/^Bearer\s+/,"");
   if(!token)return NextResponse.json({error:"Oturum gerekli."},{status:401});
