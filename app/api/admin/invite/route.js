@@ -27,3 +27,22 @@ export async function POST(req){
   return NextResponse.json({ok:true,message:cleanName+" için davet gönderildi."});
  }catch(e){return NextResponse.json({error:e?.message||"Davet gönderilemedi."},{status:500})}
 }
+export async function DELETE(req){
+ try{
+  const secret=process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if(!secret)return NextResponse.json({error:"Sunucu yönetim anahtarı ayarlanmamış."},{status:503});
+  const token=(req.headers.get("authorization")||"").replace(/^Bearer\s+/,"");
+  if(!token)return NextResponse.json({error:"Oturum gerekli."},{status:401});
+  const userDb=createClient(url,anon,{global:{headers:{Authorization:"Bearer "+token}}});
+  const {data:{user},error:userError}=await userDb.auth.getUser(token);
+  if(userError||!user)return NextResponse.json({error:"Geçersiz oturum."},{status:401});
+  const {data:profile}=await userDb.from("profiles").select("role,is_active").eq("id",user.id).single();
+  if(profile?.role!=="admin"||!profile?.is_active)return NextResponse.json({error:"Yalnızca yönetici üye silebilir."},{status:403});
+  const {user_id}=await req.json();
+  if(!user_id||user_id===user.id)return NextResponse.json({error:"Bu hesap silinemez."},{status:400});
+  const admin=createClient(url,secret,{auth:{autoRefreshToken:false,persistSession:false}});
+  const {error}=await admin.auth.admin.deleteUser(user_id);
+  if(error)return NextResponse.json({error:error.message},{status:400});
+  return NextResponse.json({ok:true,message:"Üye tamamen silindi. E-posta yeniden davet edilebilir."});
+ }catch(e){return NextResponse.json({error:e?.message||"Üye silinemedi."},{status:500})}
+}
