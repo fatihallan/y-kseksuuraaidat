@@ -18,14 +18,14 @@ export default function Home(){
   </header>
 
   <section className="hero">
-   <div className="glow one"/><div className="glow two"/>
-   <div className="heroCopy"><div className="eyebrow"><span/> YÜKSEK ŞUURA • DİJİTAL TOPLULUK</div>
+   <div className="heroCopy">
+    <div className="eyebrow">YÜKSEK ŞUURA • DİJİTAL TOPLULUK</div>
     <h1><span>DİJİTAL</span><br/><em>ŞUURA</em></h1>
+    <div className="motto"><b>DOSTLUK</b><i/>BİRLİK<i/>AKTİVİTE<i/>GELENEK</div>
     <p>Aynı değerleri paylaşan, aynı yolda yürüyen bir arkadaş topluluğu. Geçmişten güç alır, geleceği birlikte inşa ederiz.</p>
     <div className="actions"><a className="primary" href={session?"/sohbet":"#hakkimizda"}>{session?"Şuura'ya Gir":"Platformu Keşfet"} <ArrowRight size={18}/></a><a className="secondary" href="/sohbet"><MessageCircle size={18}/> Sohbete Git</a></div>
-    <div className="motto"><b>DOSTLUK</b><i/>BİRLİK<i/>AKTİVİTE<i/>GELENEK</div>
    </div>
-   <div className="sigil"><div className="moon">☾</div><div className="wolf">🐺</div><blockquote>“Aynı yolun yolcuları,<br/>aynı şuurun taşıyıcıları.”</blockquote></div>
+   <div className="heroArt"><div className="crescent">☾</div><div className="mountains"><span></span><span></span><span></span></div><div className="wolfMark">🐺</div><blockquote>“Aynı yolun yolcuları,<br/>aynı şuurun taşıyıcıları.”</blockquote></div>
   </section>
 
   <section id="hakkimizda" className="section"><div className="sectionHead"><span>TEK MERKEZ</span><h2>Şuura'nın dijital evi.</h2><p>Sohbeti, etkinlikleri, üyeleri ve ortak anılarımızı tek çatı altında topluyoruz.</p></div>
