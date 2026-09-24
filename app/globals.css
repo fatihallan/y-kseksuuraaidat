@@ -24,3 +24,15 @@
  .simpleHero .heroCopy>p{max-width:610px!important;width:100%;font-size:14px!important;line-height:1.75!important}
  .simpleHero .actions{display:flex!important;flex-direction:row!important;align-items:center;flex-wrap:wrap}
 }
+
+/* Hero definitive layout reset */
+.simpleHero{display:flex!important;align-items:center!important;min-height:520px!important;padding:72px max(32px,7vw)!important}
+.simpleHero .heroCopy{display:block!important;width:100%!important;max-width:820px!important;min-width:0!important}
+.simpleHero .eyebrow{display:block!important;width:auto!important;max-width:none!important;margin:0 0 22px!important;white-space:normal!important}
+.simpleHero h1{display:block!important;width:100%!important;max-width:820px!important;font-size:clamp(68px,6.8vw,112px)!important;line-height:.82!important;letter-spacing:-5px!important;margin:0 0 28px!important;overflow:visible!important}
+.simpleHero h1 span,.simpleHero h1 em{display:inline!important;width:auto!important}
+.simpleHero .heroCopy>p{display:block!important;width:min(100%,620px)!important;max-width:620px!important;margin:0!important;font-size:14px!important;line-height:1.75!important;white-space:normal!important;overflow-wrap:normal!important;word-break:normal!important}
+.simpleHero .actions{display:flex!important;width:auto!important;max-width:620px!important;gap:12px!important;margin-top:28px!important;flex-wrap:wrap!important}
+.simpleHero .actions a{flex:0 0 auto!important;width:auto!important}
+@media(max-width:950px){.simpleHero{min-height:460px!important;padding:64px 28px!important}.simpleHero .heroCopy{max-width:700px!important}.simpleHero h1{font-size:clamp(62px,13vw,96px)!important}}
+@media(max-width:560px){.simpleHero{min-height:0!important;padding:48px 20px 54px!important}.simpleHero .eyebrow{font-size:8px!important;margin-bottom:18px!important}.simpleHero h1{font-size:clamp(52px,17vw,74px)!important;line-height:.84!important;letter-spacing:-3px!important;margin-bottom:22px!important}.simpleHero .heroCopy>p{font-size:12px!important;line-height:1.65!important}.simpleHero .actions{display:grid!important;grid-template-columns:1fr!important;width:100%!important}.simpleHero .actions a{width:100%!important}}
