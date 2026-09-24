@@ -1,20 +1,20 @@
 "use client";
 import {useEffect,useState} from "react";
 import {createClient} from "@supabase/supabase-js";
-import {ArrowRight,CalendarDays,Image as ImageIcon,LogIn,MessageCircle,ShieldCheck,Users,WalletCards,X} from "lucide-react";
+import {ArrowRight,CalendarDays,Image as ImageIcon,LogIn,MessageCircle,ShieldCheck,Users,X} from "lucide-react";
 
 const supabase=createClient("https://kzhklbtdyzinfacaotuh.supabase.co","sb_publishable__FvHp-RV7UHiWF0H9Y5Tug_yfMGyTX9");
 const nav=[["Ana Sayfa","/"],["Sohbet","/sohbet"],["Etkinlikler","/etkinlikler"],["Galeri","/galeri"],["Üyeler","/uyeler"]];
 
 export default function Home(){
- const [login,setLogin]=useState(false),[session,setSession]=useState(null),[email,setEmail]=useState(""),[password,setPassword]=useState(""),[busy,setBusy]=useState(false),[msg,setMsg]=useState("");
- useEffect(()=>{supabase.auth.getSession().then(({data})=>setSession(data.session));const {data:s}=supabase.auth.onAuthStateChange((_e,v)=>setSession(v));return()=>s.subscription.unsubscribe()},[]);
+ const [login,setLogin]=useState(false),[session,setSession]=useState(null),[profile,setProfile]=useState(null),[email,setEmail]=useState(""),[password,setPassword]=useState(""),[busy,setBusy]=useState(false),[msg,setMsg]=useState("");
+ useEffect(()=>{async function sync(v){setSession(v);if(v){const {data:p}=await supabase.from("profiles").select("role,is_active").eq("id",v.user.id).single();setProfile(p)}else setProfile(null)}supabase.auth.getSession().then(({data})=>sync(data.session));const {data:s}=supabase.auth.onAuthStateChange((_e,v)=>sync(v));return()=>s.subscription.unsubscribe()},[]);
  async function signIn(e){e.preventDefault();setBusy(true);setMsg("");const {error}=await supabase.auth.signInWithPassword({email,password});setBusy(false);if(error)setMsg("Giriş yapılamadı: "+error.message);else{setLogin(false);setPassword("")}}
  async function signOut(){await supabase.auth.signOut()}
  return <main>
   <header className="top"><a className="brand" href="/"><span className="mark">YŞ</span><span>YÜKSEK ŞÛRA<small>DİJİTAL TOPLULUK</small></span></a>
    <nav>{nav.map(([n,h])=><a key={n} href={h}>{n}</a>)}</nav>
-   {session?<button className="ghost" onClick={signOut}>Çıkış</button>:<button className="login" onClick={()=>setLogin(true)}><LogIn size={17}/> Üye Girişi</button>}
+   {session?<div className="actions">{profile?.role==="admin"&&profile?.is_active&&<a className="login" href="/yonetim"><ShieldCheck size={17}/> Yönetim Merkezi</a>}<button className="ghost" onClick={signOut}>Çıkış</button></div>:<button className="login" onClick={()=>setLogin(true)}><LogIn size={17}/> Üye Girişi</button>}
   </header>
 
   <section className="hero">
