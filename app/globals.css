@@ -13,3 +13,14 @@
 .simpleHero{min-height:0!important;height:auto!important;display:block!important;padding:72px max(28px,8vw) 76px!important;background:radial-gradient(circle at 82% 45%,rgba(113,239,57,.10),transparent 30%),linear-gradient(120deg,#060906,#0a100b)!important}
 .simpleHero:before,.simpleHero:after{display:none!important}.simpleHero .heroCopy{max-width:780px}.simpleHero h1{font-size:clamp(58px,7vw,105px);margin:22px 0 24px}.simpleHero .heroCopy>p{max-width:620px}.simpleHero .actions{margin-top:26px}
 @media(max-width:560px){.simpleHero{padding:48px 20px 52px!important}.simpleHero h1{font-size:clamp(52px,17vw,76px);margin:18px 0 20px}.simpleHero .heroCopy>p{font-size:12px}.simpleHero .actions{display:grid}}
+
+/* Desktop typography hotfix */
+@media(min-width:951px){
+ .simpleHero{padding:64px max(40px,7vw) 68px!important}
+ .simpleHero .heroCopy{width:min(760px,62vw);max-width:760px}
+ .simpleHero h1{font-size:clamp(64px,6.2vw,108px)!important;line-height:.88!important;letter-spacing:-4px!important;white-space:normal;margin:20px 0 26px!important}
+ .simpleHero h1 span,.simpleHero h1 em{display:inline-block}
+ .simpleHero .eyebrow{line-height:1.4}
+ .simpleHero .heroCopy>p{max-width:610px!important;width:100%;font-size:14px!important;line-height:1.75!important}
+ .simpleHero .actions{display:flex!important;flex-direction:row!important;align-items:center;flex-wrap:wrap}
+}
