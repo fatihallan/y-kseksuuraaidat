@@ -1,0 +1,1 @@
+export default function sitemap(){const base="https://www.xn--yksekuura-q9a70i.com.tr";return [{url:base,changeFrequency:"weekly",priority:1},{url:base+"/etkinlikler",changeFrequency:"weekly",priority:.8},{url:base+"/galeri",changeFrequency:"weekly",priority:.7},{url:base+"/aidat",changeFrequency:"monthly",priority:.5}]}
