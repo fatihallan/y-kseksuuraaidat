@@ -4,3 +4,21 @@
 
 
 /* Final UI polish */ .profilePage{overflow-x:hidden}.profileCard,.profileCard form{min-width:0}.profileCard h1,.formTitle b{line-height:1.15;overflow-wrap:anywhere}.profileCard input{min-width:0;max-width:100%}.formTitle span{line-height:1.5}@media(max-width:560px){.profileCard{width:min(94%,720px)}}
+
+
+/* V5 kesin tipografi düzeltmesi — yalnızca profil */
+.profilePage .profileCard{font-size:14px!important}
+.profilePage .title{padding-top:20px!important;padding-bottom:24px!important}
+.profilePage .title h1{font-size:24px!important;line-height:1.25!important;margin:0 0 8px!important}
+.profilePage .title p{font-size:12px!important;line-height:1.6!important;margin:0 0 10px!important}
+.profilePage .profileCard form{display:grid!important;gap:18px!important;padding:28px 30px!important}
+.profilePage .profileCard form>label{font-size:11px!important;line-height:1.5!important;margin:0!important;letter-spacing:.8px!important}
+.profilePage .profileCard input{display:block!important;width:100%!important;min-height:44px!important;margin-top:8px!important;font-size:14px!important;line-height:1.4!important;padding:12px 14px!important}
+.profilePage .username{min-height:44px!important;margin-top:8px!important}
+.profilePage .username input{margin:0!important}
+.profilePage .profileCard small{font-size:10px!important;line-height:1.55!important;margin-top:7px!important}
+.profilePage .formTitle{margin:0 0 4px!important;align-items:flex-start!important}
+.profilePage .formTitle b{font-size:14px!important;line-height:1.35!important}
+.profilePage .formTitle span{font-size:10px!important;line-height:1.55!important;margin-top:5px!important}
+.profilePage .notice{font-size:11px!important;line-height:1.6!important;margin:0!important}
+@media(max-width:520px){.profilePage .title{padding:58px 22px 22px!important}.profilePage .profileCard form{padding:24px 20px!important}.profilePage .profileCard footer{padding:16px 20px!important}}
