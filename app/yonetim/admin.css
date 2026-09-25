@@ -58,3 +58,32 @@
 /* Final UI polish: yönetim paneli tipografi ve taşma */
 .adminPage{overflow-x:hidden}.adminContent{overflow:hidden}.adminHero h1{line-height:1.05;overflow-wrap:anywhere}.adminHero span,.panelHead p,.commandPreview p{line-height:1.65}.panel,.systemManager,.commandPreview,.member,.identity,.actions,.aidatPanel,.periodCard{min-width:0}.identity div,.member>*{min-width:0}.identity b,.identity span,.periodTitle b,.periodTitle span{overflow-wrap:anywhere}.actions{flex-wrap:wrap}.actions select,.actions button{max-width:100%}.panelHead{gap:14px;align-items:flex-start}.commandFields>*{min-width:0}.expenseList article>*{min-width:0}
 @media(max-width:800px){.adminHero{padding:36px 0 22px}.adminHero h1{font-size:clamp(30px,8vw,40px)}.panelHead{flex-wrap:wrap}.member{gap:12px}.badges,.actions{margin-left:0!important}.actions{width:100%}.actions select,.actions button{flex:1 1 120px}}
+
+
+/* V5 kesin tipografi düzeltmesi — yalnızca yönetim */
+.adminPage .adminHero p{font-size:10px!important;line-height:1.5!important;margin:0 0 10px!important}
+.adminPage .adminHero h1{font-size:clamp(34px,5vw,44px)!important;line-height:1.12!important;margin:0 0 12px!important}
+.adminPage .adminHero>span{display:block!important;font-size:13px!important;line-height:1.65!important}
+.adminPage .systemManager,.adminPage .commandPreview,.adminPage .panel{font-size:13px!important}
+.adminPage .systemIdentity{min-height:76px!important;gap:14px!important}
+.adminPage .systemIdentity b{font-size:14px!important;line-height:1.4!important}
+.adminPage .systemIdentity span{display:block!important;font-size:9px!important;line-height:1.5!important;margin-top:4px!important}
+.adminPage .systemIdentity label{font-size:10px!important;line-height:1.4!important;white-space:nowrap!important}
+.adminPage .systemManager form{display:grid!important;gap:12px!important;padding-top:20px!important}
+.adminPage .systemOptions{gap:12px!important}
+.adminPage .systemManager select,.adminPage .systemManager textarea{font-size:13px!important;line-height:1.5!important}
+.adminPage .systemManager textarea{margin:0!important}
+.adminPage .commandPreview h2{font-size:18px!important;line-height:1.3!important;margin:0 0 9px!important}
+.adminPage .commandPreview p{font-size:12px!important;line-height:1.65!important}
+.adminPage .commandManager form{display:grid!important;gap:10px!important}
+.adminPage .commandManager input,.adminPage .commandManager select,.adminPage .commandManager textarea{font-size:12px!important;line-height:1.5!important;min-height:42px!important}
+.adminPage .panelHead h2{font-size:17px!important;line-height:1.35!important}
+.adminPage .panelHead p,.adminPage .panelHead span{font-size:11px!important;line-height:1.55!important;margin:5px 0 0!important}
+.adminPage .aidatForm,.adminPage .expenseForm{align-items:stretch!important;row-gap:12px!important}
+.adminPage .aidatForm input,.adminPage .aidatForm select,.adminPage .expenseForm input{font-size:12px!important;line-height:1.4!important;min-height:42px!important}
+.adminPage .periodTitle b{font-size:14px!important;line-height:1.4!important}
+.adminPage .periodTitle span{font-size:10px!important;line-height:1.5!important}
+.adminPage .paymentRow>span{font-size:12px!important;line-height:1.5!important}
+.adminPage .expenseList article div b{font-size:13px!important;line-height:1.4!important}
+.adminPage .expenseList article div span{font-size:10px!important;line-height:1.55!important}
+@media(max-width:900px){.adminPage .systemOptions{grid-template-columns:1fr!important}.adminPage .aidatForm,.adminPage .expenseForm{grid-template-columns:1fr!important}.adminPage .systemIdentity{flex-wrap:wrap!important}.adminPage .systemIdentity label{margin-left:0!important}}
