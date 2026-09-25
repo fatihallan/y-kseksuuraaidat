@@ -38,3 +38,8 @@
 @media(max-width:560px){.simpleHero{min-height:0!important;padding:48px 20px 54px!important}.simpleHero .eyebrow{font-size:8px!important;margin-bottom:18px!important}.simpleHero h1{font-size:clamp(52px,17vw,74px)!important;line-height:.84!important;letter-spacing:-3px!important;margin-bottom:22px!important}.simpleHero .heroCopy>p{font-size:12px!important;line-height:1.65!important}.simpleHero .actions{display:grid!important;grid-template-columns:1fr!important;width:100%!important}.simpleHero .actions a{width:100%!important}}
 
 .forgotLink{display:block;margin:10px 0 0 auto;padding:0;border:0;background:transparent;color:#9fd77b;font-size:10px;cursor:pointer}.forgotLink:hover{color:#8dff32;text-decoration:underline}.forgotLink:disabled{opacity:.5}
+
+
+/* Final UI polish: okunabilirlik ve taşma koruması */
+html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility}body{line-height:1.5;overflow-wrap:break-word}button,input,select,textarea{font:inherit}h1,h2,h3,p{overflow-wrap:anywhere}h1,h2,h3{line-height:1.08;text-wrap:balance}p{line-height:1.7}.pageShell,main,section,article,header,nav,div{min-width:0}.simpleHero h1{line-height:.92!important;max-width:100%;word-break:normal!important}.simpleHero .heroCopy>p{max-width:720px}.actions{flex-wrap:wrap}
+@media(max-width:760px){body{font-size:15px}.simpleHero{padding-left:20px!important;padding-right:20px!important}.simpleHero h1{letter-spacing:-2px!important}.simpleHero .heroCopy>p{font-size:13px!important}}
