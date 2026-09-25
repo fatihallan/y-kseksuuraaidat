@@ -29,3 +29,6 @@
 
 /* Rol renkleri: yönetici turuncu, moderatör mor */
 .me em:not(.modBadge),.roleAdmin,.meta>em:not(.modBadge):not(.systemBadge){color:#ff9d3d!important;border-color:#8a4d1d!important;background:#2a1608!important}.roleMod,.modBadge{color:#c5b2ff!important;border-color:#594d82!important;background:#171226!important}.profileShortcut{display:block;color:#9aa69d!important;font-size:8px!important;margin-top:4px;text-decoration:none}.profileShortcut:hover{color:#8dff32!important}
+
+
+/* Final UI polish */ .chatPage,.chatShell{min-width:0;overflow-x:hidden}.message,.messageBody,.messageContent,.commandReply{min-width:0;overflow-wrap:anywhere}.message p,.commandReply p{line-height:1.55}.meta{min-width:0;flex-wrap:wrap}.composer textarea{min-width:0;line-height:1.45}
