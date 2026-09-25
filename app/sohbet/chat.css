@@ -26,3 +26,6 @@
 @media(max-width:650px){.botType,.botAvatarBtn{display:none}.pinnedBar{margin:6px 8px 0}.pinnedBar span{font-size:7px}}
 
 .commandReply{margin:10px 18px 16px;padding:14px 16px;border:1px solid #315129;background:#0d160f;border-radius:12px;max-width:680px}.commandReply b{font-size:9px;letter-spacing:1px;color:#8dff32}.commandReply p{margin:7px 0;white-space:pre-wrap;font-size:12px}.commandReply small{font-size:8px;color:#68766b}.commandReply.commandError{border-color:#5b3030;background:#170d0d}.commandReply.commandError b{color:#ff8d8d}
+
+/* Rol renkleri: yönetici turuncu, moderatör mor */
+.me em:not(.modBadge),.roleAdmin,.meta>em:not(.modBadge):not(.systemBadge){color:#ff9d3d!important;border-color:#8a4d1d!important;background:#2a1608!important}.roleMod,.modBadge{color:#c5b2ff!important;border-color:#594d82!important;background:#171226!important}.profileShortcut{display:block;color:#9aa69d!important;font-size:8px!important;margin-top:4px;text-decoration:none}.profileShortcut:hover{color:#8dff32!important}
