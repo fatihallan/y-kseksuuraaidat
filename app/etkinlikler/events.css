@@ -1,1 +1,27 @@
 *{box-sizing:border-box}body{margin:0;background:#060906;color:#edf3ee;font-family:Arial,sans-serif}.eventsPage{min-height:100vh;background:radial-gradient(circle at 80% 0,#162619,transparent 30%),#060906;padding-bottom:70px}.eventsPage header{height:68px;padding:0 max(5vw,24px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #19221b}.eventsPage header a{color:#8dff32;text-decoration:none;display:flex;gap:8px;align-items:center;font-size:11px}.eventsPage header b{font-size:10px;letter-spacing:2px}.hero,.announcements,.eventSection{width:min(1080px,92%);margin:auto}.hero{padding:60px 0 35px}.hero p{font-size:9px;color:#8dff32;letter-spacing:3px}.hero h1{font-size:42px;margin:8px 0}.hero>span{color:#778179}.announcements{margin-bottom:35px}.announcements h2,.sectionTitle h2{font-size:15px}.announcements article{display:flex;gap:12px;background:#101711;border:1px solid #273329;border-left:3px solid #8dff32;border-radius:9px;padding:15px;margin:8px 0}.announcements svg{color:#8dff32}.announcements b{font-size:11px}.announcements p{font-size:10px;color:#8a948c;margin:5px 0 0;white-space:pre-wrap}.sectionTitle{display:flex;justify-content:space-between;align-items:center}.sectionTitle span{font-size:9px;color:#69736b}.eventGrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.eventCard{display:flex;background:#0c110d;border:1px solid #202a22;border-radius:13px;overflow:hidden}.date{width:82px;background:#101811;display:flex;flex-direction:column;align-items:center;justify-content:center;border-right:1px solid #202a22}.date b{font-size:28px;color:#8dff32}.date span{font-size:9px;letter-spacing:2px}.eventInfo{padding:18px;flex:1}.eventInfo i{font-style:normal;color:#8dff32;font-size:8px;text-transform:uppercase;letter-spacing:1px}.eventInfo h3{margin:7px 0;font-size:16px}.eventInfo p{font-size:10px;color:#7c867e;line-height:1.5}.meta{display:flex;flex-wrap:wrap;gap:10px;margin:13px 0}.meta span{display:flex;gap:4px;align-items:center;font-size:8px;color:#778179}.eventInfo button{background:transparent;color:#8dff32;border:1px solid #3a5332;border-radius:7px;padding:8px 12px;font-size:9px;cursor:pointer}.eventInfo button.joined{background:#8dff32;color:#071006}.empty{grid-column:1/-1;padding:40px;text-align:center;border:1px dashed #283129;color:#667068;border-radius:12px}.eventGate{min-height:100vh;display:grid;place-content:center;text-align:center;gap:10px;background:#060906}.eventGate svg{margin:auto;color:#8dff32}.eventGate a{color:#8dff32}@media(max-width:720px){.eventGrid{grid-template-columns:1fr}.hero h1{font-size:32px}.date{width:67px}}
+
+/* Final UI polish */ .eventsPage{overflow-x:hidden}.hero h1,.eventInfo h3{line-height:1.12;overflow-wrap:anywhere}.hero p,.eventInfo p{line-height:1.7}.eventGrid>*{min-width:0}.meta{row-gap:8px}@media(max-width:560px){.hero{padding-left:18px;padding-right:18px}.eventInfo{padding:16px}.eventInfo h3{font-size:17px}}
+
+
+/* V5 kesin tipografi düzeltmesi — yalnızca etkinlikler */
+.eventsPage .hero{padding:52px 0 34px!important}
+.eventsPage .hero p{font-size:10px!important;line-height:1.5!important;margin:0 0 10px!important}
+.eventsPage .hero h1{font-size:clamp(34px,5vw,44px)!important;line-height:1.12!important;margin:0 0 12px!important}
+.eventsPage .hero>span{display:block!important;font-size:13px!important;line-height:1.65!important}
+.eventsPage .announcements h2,.eventsPage .sectionTitle h2{font-size:18px!important;line-height:1.3!important}
+.eventsPage .announcements article{align-items:flex-start!important;padding:16px!important}
+.eventsPage .announcements b{display:block!important;font-size:13px!important;line-height:1.4!important}
+.eventsPage .announcements p{font-size:12px!important;line-height:1.65!important;margin:7px 0 0!important}
+.eventsPage .sectionTitle{gap:16px!important;margin-bottom:14px!important}
+.eventsPage .sectionTitle span{font-size:11px!important;line-height:1.4!important}
+.eventsPage .eventCard{align-items:stretch!important;min-width:0!important}
+.eventsPage .date{flex:0 0 82px!important;min-width:82px!important;padding:12px 8px!important}
+.eventsPage .date b{font-size:28px!important;line-height:1!important}
+.eventsPage .date span{font-size:9px!important;line-height:1.4!important;margin-top:5px!important}
+.eventsPage .eventInfo{min-width:0!important;padding:20px!important}
+.eventsPage .eventInfo i{display:block!important;font-size:9px!important;line-height:1.5!important;margin-bottom:6px!important}
+.eventsPage .eventInfo h3{font-size:18px!important;line-height:1.3!important;margin:0 0 9px!important}
+.eventsPage .eventInfo p{font-size:12px!important;line-height:1.65!important;margin:0!important}
+.eventsPage .meta{gap:8px 12px!important;margin:15px 0!important}
+.eventsPage .meta span{font-size:10px!important;line-height:1.4!important}
+@media(max-width:720px){.eventsPage .date{flex-basis:68px!important;min-width:68px!important}.eventsPage .eventInfo{padding:16px!important}}
