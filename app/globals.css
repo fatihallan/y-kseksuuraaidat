@@ -36,3 +36,5 @@
 .simpleHero .actions a{flex:0 0 auto!important;width:auto!important}
 @media(max-width:950px){.simpleHero{min-height:460px!important;padding:64px 28px!important}.simpleHero .heroCopy{max-width:700px!important}.simpleHero h1{font-size:clamp(62px,13vw,96px)!important}}
 @media(max-width:560px){.simpleHero{min-height:0!important;padding:48px 20px 54px!important}.simpleHero .eyebrow{font-size:8px!important;margin-bottom:18px!important}.simpleHero h1{font-size:clamp(52px,17vw,74px)!important;line-height:.84!important;letter-spacing:-3px!important;margin-bottom:22px!important}.simpleHero .heroCopy>p{font-size:12px!important;line-height:1.65!important}.simpleHero .actions{display:grid!important;grid-template-columns:1fr!important;width:100%!important}.simpleHero .actions a{width:100%!important}}
+
+.forgotLink{display:block;margin:10px 0 0 auto;padding:0;border:0;background:transparent;color:#9fd77b;font-size:10px;cursor:pointer}.forgotLink:hover{color:#8dff32;text-decoration:underline}.forgotLink:disabled{opacity:.5}
