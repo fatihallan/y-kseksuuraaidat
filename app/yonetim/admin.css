@@ -24,3 +24,11 @@
 .periodTitle>div:first-child{display:flex;flex-direction:column;gap:4px}
 .periodDelete{margin-left:auto;white-space:nowrap}
 @media(max-width:760px){.paymentRow{gap:10px}.paymentStatusButtons{width:100%;display:grid;grid-template-columns:repeat(3,1fr)}.paymentStatusButtons button{padding:0 7px!important}.paymentRow>input[readonly]{max-width:none;width:100%}}
+
+/* Aidat ödeme satırı: durum ve tutarı birbirinden ayır */
+.paymentRow{display:grid!important;grid-template-columns:minmax(170px,1fr) minmax(310px,auto) 120px!important;align-items:center!important;gap:18px!important}
+.paymentRow>span{min-width:0;font-weight:700}
+.paymentRow .paymentStatusButtons{width:100%!important;min-width:310px;box-sizing:border-box}
+.paymentRow .paymentStatusButtons button{min-width:92px}
+.paymentRow>input[readonly]{width:120px!important;max-width:120px!important;min-width:120px!important;box-sizing:border-box;margin:0!important}
+@media(max-width:900px){.paymentRow{grid-template-columns:1fr!important;gap:10px!important}.paymentRow .paymentStatusButtons{min-width:0!important;width:100%!important}.paymentRow>input[readonly]{width:100%!important;max-width:none!important;min-width:0!important;text-align:left!important}}
