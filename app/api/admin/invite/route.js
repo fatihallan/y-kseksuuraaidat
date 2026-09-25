@@ -21,7 +21,7 @@ export async function POST(req){
   if(!cleanEmail||!cleanName)return NextResponse.json({error:"Ad soyad ve e-posta gerekli."},{status:400});
   const admin=createClient(url,secret,{auth:{autoRefreshToken:false,persistSession:false}});
   const origin=new URL(req.url).origin;
-  const {data,error}=await admin.auth.admin.inviteUserByEmail(cleanEmail,{redirectTo:origin+"/ilk-giris",data:{full_name:cleanName}});
+  const {data,error}=await admin.auth.admin.inviteUserByEmail(cleanEmail,{redirectTo:origin+"/ilk-giris",data:{full_name:cleanName,onboarding_required:true}});
   if(error)return NextResponse.json({error:error.message},{status:400});
   if(data?.user?.id)await admin.from("profiles").update({full_name:cleanName,role:"member",is_active:true}).eq("id",data.user.id);
   return NextResponse.json({ok:true,message:cleanName+" için davet gönderildi."});
