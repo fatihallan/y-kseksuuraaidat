@@ -7,21 +7,21 @@ export const metadata={
  title:{default:"Yüksek Şuura | Spor Kulübü ve Dijital Topluluk",template:"%s | Yüksek Şuura"},
  description:"Yüksek Şuura; spor, dostluk, etkinlikler ve ortak kültür etrafında bir araya gelen topluluğun resmi dijital platformudur.",
  applicationName:"Yüksek Şuura",
- icons:{icon:"/icon.svg",shortcut:"/icon.svg",apple:"/icon.svg"},
+ icons:{icon:"/yuksek-suura-logo.png",shortcut:"/yuksek-suura-logo.png",apple:"/yuksek-suura-logo.png"},
  manifest:"/manifest.webmanifest",
  keywords:["Yüksek Şuura","Yüksek Şuura Spor Kulübü","Yüksek Şuura Aksaray","Dijital Şuura","spor kulübü","Aksaray spor topluluğu"],
  authors:[{name:"Yüksek Şuura"}],
  creator:"Yüksek Şuura",
  publisher:"Yüksek Şuura",
  alternates:{canonical:"/"},
- openGraph:{type:"website",locale:"tr_TR",url:"/",siteName:"Yüksek Şuura",title:"Yüksek Şuura | Spor Kulübü ve Dijital Topluluk",description:"Yüksek Şuura'nın spor, etkinlik ve dijital topluluk platformu."},
- twitter:{card:"summary",title:"Yüksek Şuura",description:"Spor, dostluk, etkinlikler ve dijital topluluk."},
+ openGraph:{type:"website",locale:"tr_TR",url:"/",siteName:"Yüksek Şuura",title:"Yüksek Şuura | Spor Kulübü ve Dijital Topluluk",description:"Yüksek Şuura'nın spor, etkinlik ve dijital topluluk platformu.",images:[{url:"/yuksek-suura-logo.png",width:512,height:512,alt:"Yüksek Şuura"}]},
+ twitter:{card:"summary",title:"Yüksek Şuura",description:"Spor, dostluk, etkinlikler ve dijital topluluk.",images:["/yuksek-suura-logo.png"]},
  robots:{index:true,follow:true,googleBot:{index:true,follow:true,"max-image-preview":"large","max-snippet":-1,"max-video-preview":-1}},
  category:"sports"
 };
 
 const organization={
- "@context":"https://schema.org","@type":["Organization","SportsClub"],"name":"Yüksek Şuura","alternateName":["Yüksek Şuura Spor Kulübü","Dijital Şuura"],"url":siteUrl,
+ "@context":"https://schema.org","@type":["Organization","SportsClub"],"name":"Yüksek Şuura","alternateName":["Yüksek Şuura Spor Kulübü","Dijital Şuura"],"url":siteUrl,"logo":siteUrl+"/yuksek-suura-logo.png",
  "description":"Spor, dostluk, etkinlikler ve ortak kültür etrafında bir araya gelen Yüksek Şuura topluluğu."
 };
 
