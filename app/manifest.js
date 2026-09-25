@@ -1,0 +1,1 @@
+export default function manifest(){return {name:"Yüksek Şuura",short_name:"Yüksek Şuura",description:"Yüksek Şuura spor ve dijital topluluk platformu.",start_url:"/",display:"standalone",background_color:"#080b09",theme_color:"#080b09",lang:"tr",icons:[{src:"/icon.svg",sizes:"any",type:"image/svg+xml"}]}}
