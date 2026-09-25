@@ -7,6 +7,8 @@ export const metadata={
  title:{default:"Yüksek Şuura | Spor Kulübü ve Dijital Topluluk",template:"%s | Yüksek Şuura"},
  description:"Yüksek Şuura; spor, dostluk, etkinlikler ve ortak kültür etrafında bir araya gelen topluluğun resmi dijital platformudur.",
  applicationName:"Yüksek Şuura",
+ icons:{icon:"/icon.svg",shortcut:"/icon.svg",apple:"/icon.svg"},
+ manifest:"/manifest.webmanifest",
  keywords:["Yüksek Şuura","Yüksek Şuura Spor Kulübü","Yüksek Şuura Aksaray","Dijital Şuura","spor kulübü","Aksaray spor topluluğu"],
  authors:[{name:"Yüksek Şuura"}],
  creator:"Yüksek Şuura",
