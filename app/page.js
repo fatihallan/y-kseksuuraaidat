@@ -1,7 +1,7 @@
 "use client";
 import {useEffect,useState} from "react";
 import {createClient} from "@supabase/supabase-js";
-import {ArrowRight,CalendarDays,Image as ImageIcon,LogIn,MessageCircle,ShieldCheck,Users,X} from "lucide-react";
+import {ArrowRight,CalendarDays,Image as ImageIcon,LogIn,MessageCircle,ShieldCheck,Trophy,Users,X} from "lucide-react";
 
 const supabase=createClient("https://kzhklbtdyzinfacaotuh.supabase.co","sb_publishable__FvHp-RV7UHiWF0H9Y5Tug_yfMGyTX9");
 const nav=[["Ana Sayfa","/"],["Sohbet","/sohbet"],["Etkinlikler","/etkinlikler"],["Galeri","/galeri"],["Aidat","/aidat"],["Üyeler","/uyeler"]];
@@ -29,7 +29,7 @@ export default function Home(){
   <section id="hakkimizda" className="section"><div className="sectionHead"><span>TEK MERKEZ</span><h2>Şuura'nın dijital evi.</h2><p>Sohbeti, etkinlikleri, üyeleri ve ortak anılarımızı tek çatı altında topluyoruz.</p></div>
    <div className="grid">
     <Card icon={<MessageCircle/>} title="Şuura Sohbeti" text="Kanallarda konuş, gündemi ve planları tek yerde tut." href="/sohbet"/>
-    <Card icon={<CalendarDays/>} title="Etkinlikler" text="Halı saha, buluşma ve organizasyonları takip et." href="/etkinlikler"/>
+    <Card icon={<Trophy/>} title="Yüksek Şuura Spor Kulübü" text="Takım ruhunu, spor faaliyetlerini ve Şuura’nın saha kültürünü keşfet." href="/spor-kulubu"/><Card icon={<CalendarDays/>} title="Etkinlikler" text="Halı saha, buluşma ve organizasyonları takip et." href="/etkinlikler"/>
     <Card icon={<Users/>} title="Şuura Üyeleri" text="Aktif üyeleri ve dijital Şuura kimliklerini görüntüle." href="/uyeler"/>
     <Card icon={<ImageIcon/>} title="Anı Arşivi" text="Fotoğraf ve videoları Şuura'nın ortak arşivinde topla." href="/galeri"/>
    </div>
