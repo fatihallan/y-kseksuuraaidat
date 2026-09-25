@@ -35,3 +35,22 @@
 
 /* Rol renkleri: moderatör mor, yönetici turuncu */
 .badges .admin{color:#ff9d3d!important;border-color:#8a4d1d!important;background:#2a1608!important}.badges .moderator{color:#c5b2ff!important;border-color:#594d82!important;background:#171226!important}
+
+/* Açılır / daraltılır yönetim menüsü */
+.adminLayout{transition:grid-template-columns .22s ease}
+.adminLayout.navCollapsed{grid-template-columns:76px 1fr}
+.adminLayout.navExpanded{grid-template-columns:230px 1fr}
+.adminNav{overflow:hidden;transition:width .22s ease,padding .22s ease}
+.navBrand{position:relative;min-height:56px}
+.navToggle{position:absolute!important;right:4px;top:6px;width:34px;height:34px;padding:0!important;justify-content:center!important;border:1px solid #263429!important;background:#101711!important;color:#8dff32!important}
+.navToggle svg{width:17px!important}
+.navItems{display:flex;flex-direction:column;gap:7px}
+.navItems button,.navProfile{min-height:42px;border:1px solid transparent;background:transparent;color:#8b958d;border-radius:9px;padding:11px 12px;text-align:left;display:flex;gap:10px;align-items:center;cursor:pointer;font-weight:700;text-decoration:none;font-size:13px;white-space:nowrap}
+.navItems svg{width:16px;min-width:16px}
+.navProfile{margin-top:10px;border-top-color:#1b251d;padding-top:16px}
+.navProfile:hover{color:#eef4ef;background:#101711}
+.navCollapsed .navBrand b,.navCollapsed .navBrand span,.navCollapsed .navBrand>svg,.navCollapsed .navItems span{display:none}
+.navCollapsed .navBrand{display:block;padding:8px 0 18px}
+.navCollapsed .navToggle{position:static!important;margin:auto}
+.navCollapsed .navItems button,.navCollapsed .navProfile{justify-content:center;padding:11px 0}
+@media(max-width:800px){.adminLayout.navCollapsed,.adminLayout.navExpanded{grid-template-columns:1fr}.adminNav{flex-direction:column!important;padding:10px 14px!important}.navBrand{display:block!important;min-height:44px;padding:4px 0 8px!important}.navBrand>svg,.navBrand>b,.navBrand>span{display:none!important}.navToggle{position:static!important;margin:0!important}.navItems{display:grid;grid-template-columns:1fr}.navCollapsed .navItems{display:none}.navItems button,.navProfile{justify-content:flex-start!important;padding:11px 12px!important}.navItems span{display:inline!important}}
