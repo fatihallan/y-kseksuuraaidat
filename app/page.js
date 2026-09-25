@@ -8,7 +8,7 @@ const nav=[["Ana Sayfa","/"],["Sohbet","/sohbet"],["Etkinlikler","/etkinlikler"]
 
 export default function Home(){
  const [login,setLogin]=useState(false),[session,setSession]=useState(null),[profile,setProfile]=useState(null),[email,setEmail]=useState(""),[password,setPassword]=useState(""),[busy,setBusy]=useState(false),[msg,setMsg]=useState("");
- useEffect(()=>{async function sync(v){setSession(v);if(v){const {data:p}=await supabase.from("profiles").select("role,is_active").eq("id",v.user.id).single();setProfile(p)}else setProfile(null)}supabase.auth.getSession().then(({data})=>sync(data.session));const {data:s}=supabase.auth.onAuthStateChange((_e,v)=>sync(v));return()=>s.subscription.unsubscribe()},[]);
+ useEffect(()=>{async function sync(v){if(v?.user?.user_metadata?.onboarding_required){location.replace("/ilk-giris");return}setSession(v);if(v){const {data:p}=await supabase.from("profiles").select("role,is_active").eq("id",v.user.id).single();setProfile(p)}else setProfile(null)}supabase.auth.getSession().then(({data})=>sync(data.session));const {data:s}=supabase.auth.onAuthStateChange((_e,v)=>sync(v));return()=>s.subscription.unsubscribe()},[]);
  async function signIn(e){e.preventDefault();setBusy(true);setMsg("");const {error}=await supabase.auth.signInWithPassword({email,password});setBusy(false);if(error)setMsg("Giriş yapılamadı: "+error.message);else{setLogin(false);setPassword("")}}
  async function signOut(){await supabase.auth.signOut()}
  return <main>
