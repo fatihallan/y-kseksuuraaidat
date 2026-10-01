@@ -1,4 +1,5 @@
 import "./globals.css";
+import SiteSettingsProvider from "./SiteSettingsProvider";
 
 const siteUrl="https://www.xn--yksekuura-q9a70i.com.tr";
 
@@ -25,4 +26,4 @@ const organization={
  "description":"Spor, dostluk, etkinlikler ve ortak kültür etrafında bir araya gelen Yüksek Şuura topluluğu."
 };
 
-export default function RootLayout({children}){return <html lang="tr"><body>{children}<script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(organization).replace(/</g,"\\u003c")}}/></body></html>}
+export default function RootLayout({children}){return <html lang="tr"><body><SiteSettingsProvider>{children}</SiteSettingsProvider><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(organization).replace(/</g,"\\u003c")}}/></body></html>}
