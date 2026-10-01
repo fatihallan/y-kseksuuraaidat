@@ -9,7 +9,7 @@ const money=n=>Number(n||0).toLocaleString("tr-TR",{minimumFractionDigits:0,maxi
 export default function Aidat(){
  const [data,setData]=useState({donemler:[],odemeler:[],uyeler:[],giderler:[],ozet:{}}),[loading,setLoading]=useState(true),[error,setError]=useState("");
  useEffect(()=>{db.rpc("get_public_aidat_data").then(({data,error})=>{if(error)setError(error.message);else setData(data||{});setLoading(false)})},[]);
- async function pdf(g){if(!g.pdf_path)return;const {data:b,error}=await db.storage.from("aidat-belgeleri").download(g.pdf_path);if(error)return setError(error.message);const u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=(g.baslik||"gider-belgesi")+".pdf";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+ async function pdf(g){if(!g.pdf_path)return;setError("");const {data,error}=await db.storage.from("aidat-belgeleri").createSignedUrl(g.pdf_path,120,{download:(g.baslik||"gider-belgesi")+".pdf"});if(error||!data?.signedUrl)return setError(error?.message||"PDF bağlantısı oluşturulamadı.");window.open(data.signedUrl,"_blank","noopener,noreferrer")}
  if(loading)return <main className="aidatGate">Aidat sistemi yükleniyor…</main>;
  const d=data||{},periods=d.donemler||[],payments=d.odemeler||[],members=d.uyeler||[],expenses=d.giderler||[],o=d.ozet||{},current=periods.find(x=>x.aktif!==false)||periods[0];
  return <main className="aidatPage"><header><a href="/"><ArrowLeft size={18}/> Ana Sayfa</a><div><b>YÜKSEK ŞUURA</b><span>AİDAT ŞEFFAFLIK MERKEZİ</span></div></header>
