@@ -77,3 +77,11 @@ html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility}body{line-h
     letter-spacing:-1.5px;
   }
 }
+
+
+/* V8 central Site Editor variables */
+.siteThemeRoot{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--site-body-font),Inter,Arial,sans-serif;font-size:var(--site-base-size);line-height:var(--site-line-height)}
+.siteThemeRoot h1,.siteThemeRoot h2,.siteThemeRoot h3,.siteThemeRoot h4{font-family:var(--site-heading-font),Montserrat,Arial,sans-serif}
+.siteThemeRoot .primary{background:var(--green)}
+.siteThemeRoot :where(.feature,.loginBox,.panel,.eventCard,.electionCard){border-radius:var(--site-radius)}
+.siteLogo{width:42px;height:42px;object-fit:contain;border-radius:calc(var(--site-radius)*.75)}
