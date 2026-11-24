@@ -17,3 +17,11 @@
 @media(max-width:720px){.voiceWorkspace{grid-template-columns:1fr}.voiceRail{gap:6px;padding:8px 12px;border-right:0;border-bottom:1px solid #29352c}.voiceBrand{padding:4px}.voiceRail nav{display:flex;flex-wrap:wrap}.voiceIdentity{display:none}.voiceRoom{min-height:calc(100dvh - 113px)}.voiceDevice select{font-size:16px}}
 
 .voiceBrandLogo{width:37px;height:37px;flex:none;object-fit:contain;border-radius:8px}
+
+.voiceParticipants li.voiceSpeaking{border-color:#a8f780;box-shadow:inset 0 0 0 1px #a8f780;background:#203725}
+.voiceSpeaking .voiceParticipantState{color:#d0ffba}
+.voiceMode{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:5px 8px}
+.voiceMode input{width:18px;height:18px;accent-color:#b8f894}
+.voicePushButton{touch-action:none;user-select:none;-webkit-user-select:none}
+.voiceWorkspace .voicePushButton[data-held=true]{background:#b8f894;color:#142111}
+#voice-push-hint{color:#bbc9bd}

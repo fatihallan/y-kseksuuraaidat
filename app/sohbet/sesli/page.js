@@ -14,12 +14,102 @@ export default function VoiceRoom(){
  const [muted,setMuted]=useState(false),[devices,setDevices]=useState([]),[device,setDevice]=useState("");
  const [participants,setParticipants]=useState([]),[streams,setStreams]=useState({}),[connections,setConnections]=useState({});
  const room=useRef(null);
+ const [pushMode,setPushMode]=useState(false),[holding,setHolding]=useState(false);
+ const [localStream,setLocalStream]=useState(null),[speaking,setSpeaking]=useState({});
+ const pushControls=useRef({mode:false,muted:false,holds:new Set()});
+
+ function syncMicrophone(){
+  const controls=pushControls.current;
+  const pressed=controls.holds.size>0;
+  setHolding(pressed);
+  const current=room.current;
+  const enabled=controls.mode?pressed:!controls.muted;
+  const track=current?.stream?.getAudioTracks()[0];
+  const pending=current?.pendingStream?.getAudioTracks()[0];
+  if(pending)pending.enabled=enabled;
+  if(track&&track.enabled!==enabled){
+   track.enabled=enabled;
+   if(current.channel)void current.trackPresence();
+  }
+ }
+ function setHold(key,pressed){
+  const controls=pushControls.current;
+  if(pressed&&(!controls.mode||!room.current?.stream))return;
+  if(pressed)controls.holds.add(key);else controls.holds.delete(key);
+  syncMicrophone();
+ }
+ function changeMode(){
+  const controls=pushControls.current;
+  controls.mode=!controls.mode;
+  controls.holds.clear();
+  controls.muted=true;
+  setMuted(true);setPushMode(controls.mode);syncMicrophone();
+ }
+
+ useEffect(()=>{
+  if(status!=="joined"||!pushMode)return;
+  function keyDown(event){
+   if(event.code!=="Space"||event.repeat||event.altKey||event.ctrlKey||event.metaKey||event.target?.closest?.("input,textarea,select,button,a,[contenteditable]"))return;
+   event.preventDefault();setHold("keyboard",true);
+  }
+  function keyUp(event){if(event.code==="Space")setHold("keyboard",false);}
+  function release(){
+   pushControls.current.holds.clear();syncMicrophone();
+  }
+  function visibility(){if(document.hidden)release();}
+  window.addEventListener("keydown",keyDown);
+  window.addEventListener("keyup",keyUp);
+  window.addEventListener("blur",release);
+  document.addEventListener("visibilitychange",visibility);
+  return()=>{
+   window.removeEventListener("keydown",keyDown);
+   window.removeEventListener("keyup",keyUp);
+   window.removeEventListener("blur",release);
+   document.removeEventListener("visibilitychange",visibility);
+   release();
+  };
+ },[status,pushMode]);
+
+ useEffect(()=>{
+  const current=room.current;
+  const context=current?.audioContext;
+  if(status!=="joined"||!context||!localStream)return;
+  const meters=[];
+  for(const [id,stream] of [[current.id,localStream],...Object.entries(streams)]){
+   try{
+    const source=context.createMediaStreamSource(stream),analyser=context.createAnalyser();
+    analyser.fftSize=512;source.connect(analyser);
+    meters.push({id,source,analyser,track:stream.getAudioTracks()[0],buffer:new Float32Array(analyser.fftSize),until:0});
+   }catch{}
+  }
+  let last="";
+  const timer=setInterval(()=>{
+   const now=performance.now(),active=[];
+   for(const meter of meters){
+    if(!meter.track?.enabled||meter.track.muted||meter.track.readyState!=="live"){meter.until=0;continue;}
+    meter.analyser.getFloatTimeDomainData(meter.buffer);
+    const power=meter.buffer.reduce((sum,sample)=>sum+sample*sample,0)/meter.buffer.length;
+    if(power>0.000625)meter.until=now+300;
+    if(meter.until>now)active.push(meter.id);
+   }
+   const signature=active.join(",");
+   if(signature!==last){last=signature;setSpeaking(Object.fromEntries(active.map(id=>[id,true])));}
+  },80);
+  return()=>{
+   clearInterval(timer);
+   for(const meter of meters){meter.source.disconnect();meter.analyser.disconnect();}
+   setSpeaking({});
+  };
+ },[status,localStream,streams]);
 
  function leave(){
   const current=room.current;
   room.current=null;
   if(!current)return;
   clearTimeout(current.timer);
+  pushControls.current.holds.clear();setHolding(false);setLocalStream(null);
+  if(current.audioContext)void current.audioContext.close().catch(()=>{});
+  current.pendingStream?.getTracks().forEach(track=>track.stop());
   current.stream?.getTracks().forEach(track=>track.stop());
   current.peers.forEach(({pc})=>pc.close());
   if(current.channel)void db.removeChannel(current.channel);
@@ -56,25 +146,32 @@ export default function VoiceRoom(){
    const track=next.getAudioTracks()[0];
    const oldTrack=current.stream.getAudioTracks()[0];
    track.enabled=oldTrack.enabled;
+   current.pendingStream=next;
    const senders=[...current.peers.values()].map(peer=>peer.sender);
    const switched=await Promise.allSettled(senders.map(sender=>sender.replaceTrack(track)));
    if(switched.some(result=>result.status==="rejected")){
-    await Promise.allSettled(senders.map(sender=>sender.replaceTrack(oldTrack)));
+    await Promise.allSettled([...current.peers.values()].map(({sender})=>sender.replaceTrack(oldTrack)));
     throw Error("Mikrofon değiştirilemedi.");
    }
    if(room.current!==current){next.getTracks().forEach(track=>track.stop());return;}
    current.stream.getTracks().forEach(item=>item.stop());
    current.stream=next;
+   setLocalStream(next);
    setDevice(id);setError("");
   }catch{next?.getTracks().forEach(track=>track.stop());if(room.current===current)setError("Mikrofon değiştirilemedi.");}
-  finally{current.switching=false;}
+  finally{current.switching=false;current.pendingStream=null;}
  }
 
  async function join(){
   if(room.current||!member)return;
   if(!navigator.mediaDevices?.getUserMedia||!window.RTCPeerConnection){setError("Bu tarayıcı sesli sohbeti desteklemiyor.");return;}
   const current={id:crypto.randomUUID(),peers:new Map(),present:new Map(),stream:null,channel:null};
-  room.current=current;setStatus("joining");setError("");setMuted(false);
+  room.current=current;setStatus("joining");setError("");
+  pushControls.current.holds.clear();
+  pushControls.current.muted=pushControls.current.mode;
+  setMuted(pushControls.current.muted);
+  const AudioContext=window.AudioContext||window.webkitAudioContext;
+  if(AudioContext){try{current.audioContext=new AudioContext();void current.audioContext.resume().catch(()=>{});}catch{}}
   const live=()=>room.current===current;
   const trackPresence=()=>current.channel.track({id:current.id,name:member.name,muted:!current.stream.getAudioTracks()[0].enabled});
   current.trackPresence=trackPresence;
@@ -83,6 +180,7 @@ export default function VoiceRoom(){
    const stream=await microphone(device);
    if(!live()){stream.getTracks().forEach(track=>track.stop());return;}
    current.stream=stream;
+   syncMicrophone();setLocalStream(stream);
    navigator.mediaDevices.enumerateDevices().then(items=>{if(live())setDevices(items.filter(item=>item.kind==="audioinput"))}).catch(()=>{});
    await db.realtime.setAuth();
    if(!live())return;
@@ -92,8 +190,8 @@ export default function VoiceRoom(){
    function addPeer(id){
     if(current.peers.has(id))return current.peers.get(id);
     const pc=new RTCPeerConnection({iceServers});
-    const audio=current.stream.getAudioTracks()[0];
-    const sender=pc.addTrack(audio,current.stream);
+    const stream=current.pendingStream||current.stream;
+    const sender=pc.addTrack(stream.getAudioTracks()[0],stream);
     const peer={pc,sender,pending:[],queue:Promise.resolve()};
     current.peers.set(id,peer);
     pc.ontrack=event=>{if(live()&&current.peers.get(id)===peer)setStreams(previous=>({...previous,[id]:event.streams[0]||new MediaStream([event.track])}));};
@@ -156,9 +254,9 @@ export default function VoiceRoom(){
 
  function toggleMute(){
   const current=room.current;
-  if(!current?.stream||current.switching)return;
-  const track=current.stream.getAudioTracks()[0];
-  track.enabled=!track.enabled;setMuted(!track.enabled);void current.trackPresence();
+  if(!current?.stream||pushControls.current.mode)return;
+  pushControls.current.muted=!pushControls.current.muted;
+  setMuted(pushControls.current.muted);syncMicrophone();
  }
 
  const joined=status==="joined";
@@ -185,11 +283,13 @@ export default function VoiceRoom(){
      {participants.map(person=>{
       const own=person.id===room.current?.id;
       const connection=connections[person.id];
-      const label=connection==="failed"?"Bağlanamadı":person.muted?"Mikrofon kapalı":own||connection==="connected"?"Mikrofon açık":"Bağlanıyor…";
-      return <li key={person.id}>
+      const silent=own?(pushMode?!holding:muted):person.muted;
+      const talking=speaking[person.id]&&!silent&&(own||connection==="connected");
+      const label=connection==="failed"?"Bağlanamadı":talking?"Konuşuyor":silent?"Mikrofon kapalı":own||connection==="connected"?"Mikrofon açık":"Bağlanıyor…";
+      return <li key={person.id} className={talking?"voiceSpeaking":undefined}>
        <span className="voiceAvatar">{initial(person.name)}</span>
        <strong>{person.name}{own?" (sen)":""}</strong>
-       <span className="voiceParticipantState">{person.muted?<MicOff size={15}/>:<Mic size={15}/>} {label}</span>
+       <span className="voiceParticipantState">{silent?<MicOff size={15}/>:<Mic size={15}/>} {label}</span>
       </li>;
      })}
     </ul>:<div className="voiceLobby">
@@ -201,7 +301,16 @@ export default function VoiceRoom(){
    </div>
    {member&&<footer className="voiceDock">
     {joined&&<>
-     <button type="button" aria-pressed={muted} onClick={toggleMute}>{muted?<MicOff size={19}/>:<Mic size={19}/>} {muted?"Mikrofonu aç":"Mikrofonu sustur"}</button>
+     <label className="voiceMode"><input type="checkbox" checked={pushMode} onChange={changeMode}/> Bas Konuş modu</label>
+     {pushMode?<button className="voicePushButton" type="button" data-held={holding} aria-describedby="voice-push-hint"
+      onPointerDown={event=>{if(event.button!==0)return;event.currentTarget.setPointerCapture(event.pointerId);setHold(event.pointerId,true)}}
+      onPointerUp={event=>setHold(event.pointerId,false)} onPointerCancel={event=>setHold(event.pointerId,false)} onLostPointerCapture={event=>setHold(event.pointerId,false)}
+      onKeyDown={event=>{if(event.code==="Space"||event.key==="Enter"){event.preventDefault();if(!event.repeat)setHold("button",true)}}}
+      onKeyUp={event=>{if(event.code==="Space"||event.key==="Enter"){event.preventDefault();setHold("button",false)}}}
+      onBlur={()=>setHold("button",false)}>
+       {holding?<Mic size={19}/>:<MicOff size={19}/>} {holding?"Mikrofon açık":"Basılı tut ve konuş"}
+     </button>:<button type="button" aria-pressed={muted} onClick={toggleMute}>{muted?<MicOff size={19}/>:<Mic size={19}/>} {muted?"Mikrofonu aç":"Mikrofonu sustur"}</button>}
+     {pushMode&&<small id="voice-push-hint">Kısayol: Boşluk tuşunu basılı tut.</small>}
      <label className="voiceDevice"><SlidersHorizontal size={19}/><span className="voiceSrOnly">Mikrofon seç</span><select value={device} onChange={event=>void selectMicrophone(event.target.value)}><option value="">Varsayılan mikrofon</option>{devices.filter(item=>item.deviceId&&item.deviceId!=="default").map((item,index)=><option key={item.deviceId} value={item.deviceId}>{item.label||`Mikrofon ${index+1}`}</option>)}</select></label>
     </>}
     {status==="idle"?<button className="voiceJoin" type="button" onClick={join}><Volume2 size={19}/> Odaya katıl</button>:<button className="voiceLeave" type="button" onClick={()=>disconnect()}><PhoneOff size={19}/> {connecting?"İptal et":"Odadan ayrıl"}</button>}
