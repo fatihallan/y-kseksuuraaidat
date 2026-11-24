@@ -25,6 +25,7 @@ export default function AdminElectionResults({election,db}){
   setPublishedAt(data);setAttempt(value=>value+1);
  }
 
+ const provisional=election.status==="open"&&Date.now()<new Date(election.ends_at).getTime();
  const rows=[...(result?.rows||[])].sort((a,b)=>Number(b.votes)-Number(a.votes));
  const total=rows.reduce((sum,row)=>sum+Number(row.votes),0);
  const leaders=total?rows.filter(row=>Number(row.votes)===Number(rows[0].votes)):[];
@@ -32,7 +33,7 @@ export default function AdminElectionResults({election,db}){
   <h3>Seçim Sonuçları</h3>
   {!result?<p role="status">Sonuçlar yükleniyor…</p>:result.error?<div role="alert"><p>Sonuçlar yüklenemedi.</p><button type="button" onClick={()=>setAttempt(value=>value+1)}>Tekrar dene</button></div>:<>
    <p>Toplam {total} oy</p>
-   {!total?<p>Bu seçimde oy kullanılmadı.</p>:leaders.length===1?<p><strong>Kazanan</strong> {leaders[0].candidate_name}</p>:<p><strong>Eşit oy</strong> {leaders.map(row=>row.candidate_name).join(", ")}</p>}
+   {!total?<p>Bu seçimde oy kullanılmadı.</p>:leaders.length===1?<p><strong>{provisional?"Önde":"Kazanan"}</strong> {leaders[0].candidate_name}</p>:<p><strong>Eşit oy</strong> {leaders.map(row=>row.candidate_name).join(", ")}</p>}
    <ul>{rows.map(row=><li key={row.candidate_id}><span>{row.candidate_name}</span><strong>{row.votes} oy{total>0&&` · %${(100*Number(row.votes)/total).toLocaleString("tr-TR",{maximumFractionDigits:1})}`}</strong></li>)}</ul>
   </>}
   <div className="adminVoteActions">
