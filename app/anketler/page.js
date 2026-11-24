@@ -16,5 +16,5 @@ export default function Anketler(){
   void check();
   return()=>{active=false};
  },[]);
- return <main className="pollPage"><a href="/">← Ana sayfa</a><h1>Şuura Anketleri</h1>{member===null?<p role="status">Üyelik kontrol ediliyor…</p>:member?<PollBoard db={db}/>:<p>Anketleri görmek için aktif üye hesabınla giriş yap.</p>}</main>;
+ return <main className="pollPage"><a href="/">← Ana sayfa</a><h1>Şuura Anketleri</h1><PollBoard db={db} canVote={member===true}/>{member===false&&<p>Oy kullanmak için aktif üye hesabınla <a href="/">giriş yap</a>.</p>}</main>;
 }
