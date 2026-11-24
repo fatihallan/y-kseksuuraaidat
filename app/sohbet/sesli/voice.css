@@ -1,13 +1,17 @@
-.voicePage{width:min(100% - 32px,680px);margin:36px auto;padding:20px;border:1px solid #263329;border-radius:16px;background:#0d120f}
-.voicePage a{color:#b8ff88}
-.voicePage h1{font-size:clamp(28px,7vw,44px);margin:20px 0 10px}
-.voicePage h2{font-size:20px}
-.voiceControls{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
-.voicePage button,.voicePage select{min-height:44px;padding:8px 14px;background:#172219;border:1px solid #3b523a;border-radius:8px;color:#eef7ef}
-.voicePage button{cursor:pointer}
-.voicePage button[aria-pressed=true]{background:#32201e}
-.voicePage label{display:grid;gap:6px;margin-top:20px}
-.voicePage select{width:100%}
-.voicePage ul{list-style:none;padding:0}
-.voicePage li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid #263329}
-.voicePage [role=alert]{color:#ffaba5}
+.voiceWorkspace{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:100dvh;background:#111812;color:#edf4ee}
+.voiceRail{display:flex;flex-direction:column;gap:22px;padding:18px 14px;background:#0b100d;border-right:1px solid #29352c}
+.voiceBrand,.voiceRail nav a,.voiceIdentity{display:flex;align-items:center;gap:10px}
+.voiceBrand{padding:8px}.voiceBrand>span,.voiceAvatar{display:grid;place-items:center;flex:none;border-radius:12px;background:#243d2a;color:#b9ff91;font-weight:800}
+.voiceBrand>span{width:37px;height:37px}.voiceRail nav{display:grid;gap:6px}
+.voiceRail nav a{min-height:44px;padding:8px 10px;border-radius:8px;color:#bbc9bd;font-size:14px}
+.voiceRail nav a[aria-current]{background:#1d3022;color:#c7ffa7}.voiceRail nav a svg:last-child:not(:first-child){margin-left:auto}
+.voiceIdentity{flex-wrap:wrap;margin-top:auto;padding:10px;border-top:1px solid #29352c;font-size:13px}.voiceIdentity .voiceAvatar{width:32px;height:32px}.voiceIdentity strong{overflow-wrap:anywhere}
+.voiceConnected,.voiceDisconnected{flex-basis:100%;color:#a9b8ad}.voiceConnected{color:#b7ff8f}
+.voiceRoom{min-width:0;display:grid;grid-template-rows:auto 1fr auto;min-height:100dvh}
+.voiceRoomHeader{display:flex;align-items:center;gap:12px;min-height:68px;padding:12px clamp(16px,3vw,36px);border-bottom:1px solid #29352c}.voiceRoomHeader svg{flex:none;color:#b9ff91}.voiceRoomHeader h1{margin:0;font-size:clamp(18px,3vw,25px)}.voiceRoomHeader span{margin-left:auto;color:#abbcaf;font-size:13px}
+.voiceStage{padding:clamp(16px,4vw,40px);background:#141d16}.voiceLobby{display:grid;justify-items:center;align-content:center;min-height:clamp(140px,42vh,350px);text-align:center;color:#c2cec4}.voiceLobby a{color:#c7ffa7;text-decoration:underline}.voiceLobbyIcon{display:grid;place-items:center;width:68px;height:68px;border-radius:21px;background:#243d2a;color:#b9ff91}
+.voiceParticipants{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:14px;list-style:none;padding:0;margin:0}.voiceParticipants li{min-width:0;display:grid;justify-items:center;align-content:center;gap:8px;min-height:158px;padding:14px;border:1px solid #2e4132;border-radius:14px;background:#1a281e;text-align:center;overflow-wrap:anywhere}.voiceParticipants .voiceAvatar{width:56px;height:56px;border-radius:50%;font-size:23px}.voiceParticipantState{display:flex;align-items:center;gap:5px;color:#b8c7bb;font-size:13px}
+.voiceDock{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;position:sticky;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));border-top:1px solid #29352c;background:#0c130e;z-index:1}
+.voiceWorkspace button,.voiceDevice{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 12px;border-radius:8px;border:1px solid #3d5342;background:#1a291e;color:#eef6ef}.voiceWorkspace button{cursor:pointer}.voiceWorkspace button svg,.voiceDevice svg{flex:none}.voiceWorkspace .voiceJoin{background:#b8f894;color:#142111;font-weight:800}.voiceWorkspace .voiceLeave,.voiceWorkspace button[aria-pressed=true]{background:#412525;color:#ffd2ce;border-color:#814a47}
+.voiceDevice{min-width:0;max-width:100%}.voiceDevice select{max-width:100%;min-width:0;background:#1a291e;color:#eef6ef;border:0}.voiceError{color:#ffb5ad}.voiceSrOnly{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:720px){.voiceWorkspace{grid-template-columns:1fr}.voiceRail{gap:6px;padding:8px 12px;border-right:0;border-bottom:1px solid #29352c}.voiceBrand{padding:4px}.voiceRail nav{display:flex;flex-wrap:wrap}.voiceIdentity{display:none}.voiceRoom{min-height:calc(100dvh - 113px)}.voiceDevice select{font-size:16px}}
