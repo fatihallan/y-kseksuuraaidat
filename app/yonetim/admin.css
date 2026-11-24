@@ -113,3 +113,6 @@
 .adminVoteResults li strong{flex:none;color:#b9ff8a}
 .adminVoteResults button{min-height:44px;padding:8px 14px;border-radius:8px;border:1px solid #3b523a;background:#172219;color:#eef7ef;cursor:pointer}
 @media(max-width:600px){.adminVoteResults{margin-inline:12px;padding-inline:12px}}
+
+.adminVoteActions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}
+.adminVoteActions button:disabled{opacity:.5;cursor:default}
