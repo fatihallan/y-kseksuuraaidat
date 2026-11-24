@@ -1,6 +1,7 @@
 "use client";
 import {useEffect,useState} from "react";
 import {createClient} from "@supabase/supabase-js";
+import MemberHome from "./MemberHome";
 import {useSiteSettings} from "./SiteSettingsProvider";
 import {ArrowRight,CalendarDays,Image as ImageIcon,LogIn,Menu,MessageCircle,ShieldCheck,Trophy,UserCircle,Users,X} from "lucide-react";
 
@@ -9,10 +10,10 @@ const supabase=createClient("https://kzhklbtdyzinfacaotuh.supabase.co","sb_publi
 
 export default function Home(){
  const {settings}=useSiteSettings();
- const nav=[[settings.navHome,"/"],[settings.navChat,"/sohbet"],[settings.navEvents,"/etkinlikler"],[settings.navGallery,"/galeri"],[settings.navDues,"/aidat"],[settings.navMembers,"/uyeler"],["Seçim Merkezi","/secim"]];
+ const nav=[[settings.navHome,"/"],[settings.navChat,"/sohbet"],[settings.navEvents,"/etkinlikler"],[settings.navGallery,"/galeri"],[settings.navDues,"/aidat"],[settings.navMembers,"/uyeler"],["Seçim Merkezi","/secim"],["Anketler","/anketler"]];
  const [menuOpen,setMenuOpen]=useState(false);
  const [login,setLogin]=useState(false),[session,setSession]=useState(null),[profile,setProfile]=useState(null),[email,setEmail]=useState(""),[password,setPassword]=useState(""),[busy,setBusy]=useState(false),[msg,setMsg]=useState("");
- useEffect(()=>{async function sync(v){if(v?.user?.user_metadata?.onboarding_required){location.replace("/ilk-giris");return}setSession(v);if(v){const {data:p}=await supabase.from("profiles").select("role,is_active").eq("id",v.user.id).single();setProfile(p)}else setProfile(null)}supabase.auth.getSession().then(({data})=>sync(data.session));const {data:s}=supabase.auth.onAuthStateChange((_e,v)=>sync(v));return()=>s.subscription.unsubscribe()},[]);
+ useEffect(()=>{async function sync(v){if(v?.user?.user_metadata?.onboarding_required){location.replace("/ilk-giris");return}setSession(v);if(v){const {data:p}=await supabase.from("profiles").select("role,is_active,full_name").eq("id",v.user.id).single();setProfile(p)}else setProfile(null)}supabase.auth.getSession().then(({data})=>sync(data.session));const {data:s}=supabase.auth.onAuthStateChange((_e,v)=>{setTimeout(()=>sync(v),0)});return()=>s.subscription.unsubscribe()},[]);
  async function signIn(e){e.preventDefault();setBusy(true);setMsg("");const {error}=await supabase.auth.signInWithPassword({email,password});setBusy(false);if(error)setMsg("Giriş yapılamadı: "+error.message);else{setLogin(false);setPassword("")}}
  async function forgotPassword(){if(!email){setMsg("Önce e-posta adresini yaz.");return}setBusy(true);setMsg("");const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:location.origin+"/sifre-yenile"});setBusy(false);setMsg(error?"Sıfırlama bağlantısı gönderilemedi: "+error.message:"Şifre yenileme bağlantısını e-postana gönderdik.")}
  async function signOut(){await supabase.auth.signOut()}
@@ -24,14 +25,14 @@ export default function Home(){
    </div>
   </header>
 
-  <section className="hero simpleHero">
+  {session&&profile?.is_active?<MemberHome db={supabase} userId={session.user.id} name={profile.full_name}/>:<section className="hero simpleHero">
    <div className="heroCopy">
     <div className="eyebrow">{settings.heroEyebrow}</div>
     <h1><span>{settings.heroTitle}</span><br/><em>{settings.heroAccent}</em></h1>
     <p>{settings.heroText}</p>
     <div className="actions"><a className="primary" href={session?"/sohbet":"#hakkimizda"}>{session?"Şuura'ya Gir":"Platformu Keşfet"} <ArrowRight size={18}/></a><a className="secondary" href="/sohbet"><MessageCircle size={18}/> Sohbete Git</a></div>
    </div>
-  </section>
+  </section>}
 
   <section id="hakkimizda" className="section"><div className="sectionHead"><span>TEK MERKEZ</span><h2>Şuura'nın dijital evi.</h2><p>Sohbeti, etkinlikleri, üyeleri ve ortak anılarımızı tek çatı altında topluyoruz.</p></div>
    <div className="grid">
