@@ -85,3 +85,35 @@ html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility}body{line-h
 .siteThemeRoot .primary{background:var(--green)}
 .siteThemeRoot :where(.feature,.loginBox,.panel,.eventCard,.electionCard){border-radius:var(--site-radius)}
 .siteLogo{width:42px;height:42px;object-fit:contain;border-radius:calc(var(--site-radius)*.75)}
+
+/* Ortak mobil yerleşim */
+.homeMenuToggle{display:none}
+.homeTop{gap:clamp(16px,2.5vw,36px)}
+.homeTop .homeMenu{display:flex;flex:1;align-items:center;justify-content:space-between;gap:16px}
+.homeTop .homeMenu nav{display:flex;flex-wrap:wrap;gap:8px 16px;margin:0}
+.homeTop .homeMenu nav a[aria-current="page"]{color:var(--green)}
+.homeTop .brand>span:last-child{white-space:normal}
+.homeTop .brand small{overflow-wrap:anywhere}
+.homeTop .actions{margin:0}
+:where(button,a,input,select,textarea):focus-visible{outline:2px solid var(--green);outline-offset:3px}
+:where(.aidatPage,.eventsPage,.galleryPage,.contentPage,.profilePage,.membersPage,.sportPage,.adminPage,.electionPage) :where(button,select,input,textarea,img,video){max-width:100%}
+:where(.aidatPage,.eventsPage,.galleryPage,.contentPage,.profilePage,.membersPage,.sportPage,.adminPage,.electionPage) button{white-space:normal;overflow-wrap:anywhere}
+@media(max-width:1200px){
+ .homeTop{display:grid;grid-template-columns:minmax(0,1fr) auto;height:auto;min-height:66px;padding:10px 16px;gap:10px 14px}
+ .homeTop .brand{min-width:0}
+ .homeMenuToggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:0 12px;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:9px;cursor:pointer}
+ .homeTop .homeMenu{display:none;grid-column:1/-1}
+ .homeTop .homeMenu.isOpen{display:grid;gap:12px;max-height:calc(100dvh - 90px);overflow:auto;padding:8px 3px 4px}
+ .homeTop .homeMenu nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+ .homeTop .homeMenu nav a{display:flex;align-items:center;min-height:44px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;overflow-wrap:anywhere}
+ .homeTop .homeMenu .actions{display:flex;gap:8px}
+ .homeTop .homeMenu :is(button,.actions a){min-height:44px}
+}
+@media(max-width:760px){
+ .simpleHero h1{font-size:clamp(34px,10vw,64px)!important;line-height:1.06!important;letter-spacing:-.04em!important;overflow-wrap:anywhere}
+ .simpleHero .heroCopy>p{font-size:15px!important}
+ .loginBox{max-height:calc(100dvh - 32px);overflow:auto}
+ :where(.aidatPage,.eventsPage,.galleryPage,.contentPage,.profilePage,.membersPage,.sportPage,.adminPage,.electionPage)>header{min-height:64px;height:auto;padding-block:10px;gap:10px}
+ :where(.aidatPage,.eventsPage,.galleryPage,.contentPage,.profilePage,.membersPage,.sportPage,.adminPage,.electionPage)>header>a{min-height:44px;overflow-wrap:anywhere}
+ :where(.aidatPage,.eventsPage,.galleryPage,.contentPage,.profilePage,.adminPage,.electionPage) :where(input:not([type=checkbox],[type=radio],[type=color]),select,textarea){font-size:16px}
+}

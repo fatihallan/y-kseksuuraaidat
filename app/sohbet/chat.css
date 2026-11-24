@@ -32,3 +32,15 @@
 
 
 /* Final UI polish */ .chatPage,.chatShell{min-width:0;overflow-x:hidden}.message,.messageBody,.messageContent,.commandReply{min-width:0;overflow-wrap:anywhere}.message p,.commandReply p{line-height:1.55}.meta{min-width:0;flex-wrap:wrap}.composer textarea{min-width:0;line-height:1.45}
+
+@media(max-width:650px){
+ .chatShell,.chatMain{height:100dvh}
+ .chatMain{grid-template-rows:minmax(64px,auto) minmax(0,1fr) auto}
+ .chatMain header{padding-left:64px;min-height:64px;gap:8px}
+ .mobileMenu,.chatSide .sideClose{width:44px;height:44px}
+ .mobileMenu{top:10px}
+ .chatSide{overflow-y:auto;visibility:hidden}
+ .chatSide.sideOpen{visibility:visible}
+ .chatMain :is(textarea,input:not([type=file])){min-width:0;font-size:16px}
+ .messageActions{flex-wrap:wrap}
+}
