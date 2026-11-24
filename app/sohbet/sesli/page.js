@@ -167,7 +167,7 @@ export default function VoiceRoom(){
 
  return <main className="voiceWorkspace">
   <aside className="voiceRail">
-   <a className="voiceBrand" href="/"><span>YŞ</span><strong>Yüksek Şuura</strong></a>
+   <a className="voiceBrand" href="/"><img className="voiceBrandLogo" src="/yuksek-suura-logo.png" alt=""/><strong>Yüksek Şuura</strong></a>
    <nav aria-label="Sohbet kanalları">
     <a href="/sohbet"><Hash size={18}/> Yazılı sohbet <ArrowUpRight size={15}/></a>
     <a href="/sohbet/sesli" aria-current="page"><Volume2 size={18}/> Genel Sesli Oda</a>
