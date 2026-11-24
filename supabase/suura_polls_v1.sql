@@ -71,3 +71,19 @@ $$;
 
 revoke execute on function public.list_suura_polls(),public.manage_suura_poll(text,bigint,text,text[]),public.vote_suura_poll(bigint,integer) from public,anon;
 grant execute on function public.list_suura_polls(),public.manage_suura_poll(text,bigint,text,text[]),public.vote_suura_poll(bigint,integer) to authenticated;
+
+alter table public.aidat_uyeleri add column profile_id uuid unique references public.profiles(id) on delete set null;
+create function public.get_my_suura_dues(p_period_id bigint)
+returns text language sql security definer set search_path='' as $$
+ select o.durum::text
+ from public.aidat_odemeleri o
+ where o.donem_id=p_period_id and (select auth.uid()) is not null
+ and exists(select 1 from public.profiles p where p.id=(select auth.uid()) and p.is_active)
+ and (o.user_id=(select auth.uid()) or exists (
+  select 1 from public.aidat_uyeleri a
+  where a.id=o.aidat_uye_id and a.profile_id=(select auth.uid()) and a.aktif
+ ))
+ order by o.updated_at desc nulls last,o.id desc limit 1;
+$$;
+revoke execute on function public.get_my_suura_dues(bigint) from public,anon;
+grant execute on function public.get_my_suura_dues(bigint) to authenticated;

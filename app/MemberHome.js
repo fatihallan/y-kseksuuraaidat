@@ -15,7 +15,7 @@ export default function MemberHome({db,userId,name}){
     db.from("announcements").select("title,content").order("created_at",{ascending:false}).limit(1).maybeSingle(),
     db.from("aidat_donemleri").select("id,ad").eq("aktif",true).order("yil",{ascending:false}).order("ay",{ascending:false}).limit(1).maybeSingle()
    ]);
-   const payment=dues.data?await db.from("aidat_odemeleri").select("durum").eq("donem_id",dues.data.id).eq("user_id",userId).limit(1).maybeSingle():{};
+   const payment=dues.data?await db.rpc("get_my_suura_dues",{p_period_id:dues.data.id}):{};
    if(active)setSummary({event,note,dues,payment});
   }
   async function observe(){
@@ -32,7 +32,7 @@ export default function MemberHome({db,userId,name}){
   return()=>{active=false;if(channel)void db.removeChannel(channel)};
  },[db,userId]);
  const event=summary?.event.data,note=summary?.note.data,dues=summary?.dues.data;
- const paymentLabel={odendi:"Ödendi",odenmedi:"Ödenmedi",muaf:"Muaf"}[summary?.payment.data?.durum];
+ const paymentLabel={odendi:"Ödendi",odenmedi:"Ödenmedi",muaf:"Muaf"}[summary?.payment.data];
  return <section className="memberHome">
   <h1>Merhaba{name?`, ${name}`:""}.</h1>
   <div className="memberHomeGrid">
