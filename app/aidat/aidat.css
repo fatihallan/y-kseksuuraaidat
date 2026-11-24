@@ -13,3 +13,14 @@
 .publicExpenses article>div{min-width:0}.publicExpenses article div span{display:block;line-height:1.55;margin-top:4px}
 @media(max-width:760px){.aidatSummary{grid-template-columns:1fr 1fr}.publicPayment{grid-template-columns:minmax(0,1fr) auto}.publicPayment>em{display:none}.boxHead{align-items:flex-start}.publicExpenses article{grid-template-columns:minmax(0,1fr) auto}.publicExpenses article button,.publicExpenses article em{grid-column:1/-1}}
 @media(max-width:480px){.aidatSummary{grid-template-columns:1fr}.aidatPage header{padding:0 16px}.aidatPage header div{max-width:48%}}
+
+.periodPicker{display:grid;gap:6px;margin-bottom:14px;font-size:14px;color:#d4dfd6}
+.periodPicker select,.adminPeriodPicker select{width:100%;min-height:44px;padding:8px 12px;border:1px solid #334437;border-radius:8px;background:#101611;color:#eef4ef}
+.aidatPage :is(.memberMini b,.publicPayment>strong,.publicPayment>em,.publicExpenses article div b){font-size:13px}
+.aidatPage :is(.memberMini span,.publicExpenses article div span,.publicExpenses article em,.publicPeriodHead span){font-size:12px;color:#aebbb1}
+.aidatPage .publicExpenses button{min-height:44px;font-size:13px}
+@media(max-width:760px){
+ .aidatPage .publicPayment{grid-template-columns:minmax(0,1fr) auto;row-gap:4px}
+ .aidatPage .publicPayment>em{display:block;grid-column:2}
+ .aidatPage .memberMini{grid-row:span 2}
+}

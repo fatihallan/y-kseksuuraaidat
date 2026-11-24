@@ -2,23 +2,26 @@
 import {useEffect,useState} from "react";
 import {createClient} from "@supabase/supabase-js";
 import {useSiteSettings} from "./SiteSettingsProvider";
-import {ArrowRight,CalendarDays,Image as ImageIcon,LogIn,MessageCircle,ShieldCheck,Trophy,UserCircle,Users,X} from "lucide-react";
+import {ArrowRight,CalendarDays,Image as ImageIcon,LogIn,Menu,MessageCircle,ShieldCheck,Trophy,UserCircle,Users,X} from "lucide-react";
 
 const supabase=createClient("https://kzhklbtdyzinfacaotuh.supabase.co","sb_publishable__FvHp-RV7UHiWF0H9Y5Tug_yfMGyTX9");
 
 
 export default function Home(){
  const {settings}=useSiteSettings();
- const nav=[[settings.navHome,"/"],[settings.navChat,"/sohbet"],[settings.navEvents,"/etkinlikler"],[settings.navGallery,"/galeri"],[settings.navDues,"/aidat"],[settings.navMembers,"/uyeler"]];
+ const nav=[[settings.navHome,"/"],[settings.navChat,"/sohbet"],[settings.navEvents,"/etkinlikler"],[settings.navGallery,"/galeri"],[settings.navDues,"/aidat"],[settings.navMembers,"/uyeler"],["Seçim Merkezi","/secim"]];
+ const [menuOpen,setMenuOpen]=useState(false);
  const [login,setLogin]=useState(false),[session,setSession]=useState(null),[profile,setProfile]=useState(null),[email,setEmail]=useState(""),[password,setPassword]=useState(""),[busy,setBusy]=useState(false),[msg,setMsg]=useState("");
  useEffect(()=>{async function sync(v){if(v?.user?.user_metadata?.onboarding_required){location.replace("/ilk-giris");return}setSession(v);if(v){const {data:p}=await supabase.from("profiles").select("role,is_active").eq("id",v.user.id).single();setProfile(p)}else setProfile(null)}supabase.auth.getSession().then(({data})=>sync(data.session));const {data:s}=supabase.auth.onAuthStateChange((_e,v)=>sync(v));return()=>s.subscription.unsubscribe()},[]);
  async function signIn(e){e.preventDefault();setBusy(true);setMsg("");const {error}=await supabase.auth.signInWithPassword({email,password});setBusy(false);if(error)setMsg("Giriş yapılamadı: "+error.message);else{setLogin(false);setPassword("")}}
  async function forgotPassword(){if(!email){setMsg("Önce e-posta adresini yaz.");return}setBusy(true);setMsg("");const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:location.origin+"/sifre-yenile"});setBusy(false);setMsg(error?"Sıfırlama bağlantısı gönderilemedi: "+error.message:"Şifre yenileme bağlantısını e-postana gönderdik.")}
  async function signOut(){await supabase.auth.signOut()}
  return <main>
-  <header className="top"><a className="brand" href="/">{settings.logoUrl?<img className="siteLogo" src={settings.logoUrl} alt={settings.siteName}/>:<span className="mark">YŞ</span>}<span>{settings.siteName}<small>{settings.tagline}</small></span></a>
-   <nav>{nav.map(([n,h])=><a key={n} href={h}>{n}</a>)}</nav>
-   {session?<div className="actions"><a className="ghost" href="/profil"><UserCircle size={17}/> Profilim</a>{profile?.role==="admin"&&profile?.is_active&&<a className="login" href="/yonetim"><ShieldCheck size={17}/> Yönetim Merkezi</a>}<button className="ghost" onClick={signOut}>Çıkış</button></div>:<button className="login" onClick={()=>setLogin(true)}><LogIn size={17}/> Üye Girişi</button>}
+  <header className="top homeTop" onKeyDown={event=>{if(event.key==="Escape"&&menuOpen){setMenuOpen(false);document.getElementById("home-menu-toggle")?.focus()}}}><a className="brand" href="/">{settings.logoUrl?<img className="siteLogo" src={settings.logoUrl} alt={settings.siteName}/>:<span className="mark">YŞ</span>}<span>{settings.siteName}<small>{settings.tagline}</small></span></a>
+   <button id="home-menu-toggle" type="button" className="homeMenuToggle" aria-expanded={menuOpen} aria-controls="home-menu" onClick={()=>setMenuOpen(open=>!open)}>{menuOpen?<X size={20}/>:<Menu size={20}/>} Menü</button>
+   <div id="home-menu" className={`homeMenu${menuOpen?" isOpen":""}`}><nav aria-label="Ana menü">{nav.map(([label,href])=><a key={href} href={href} aria-current={href==="/"?"page":undefined}>{label}</a>)}</nav>
+   {session?<div className="actions"><a className="ghost" href="/profil"><UserCircle size={17}/> Profilim</a>{profile?.role==="admin"&&profile?.is_active&&<a className="login" href="/yonetim"><ShieldCheck size={17}/> Yönetim Merkezi</a>}<button className="ghost" onClick={signOut}>Çıkış</button></div>:<button className="login" onClick={()=>{setMenuOpen(false);setLogin(true)}}><LogIn size={17}/> Üye Girişi</button>}
+   </div>
   </header>
 
   <section className="hero simpleHero">
@@ -43,7 +46,7 @@ export default function Home(){
   <section id="galeri" className="section compact"><div className="sectionHead"><span>ŞUURA SOHBETİ</span><h2>Muhabbet burada devam ediyor.</h2><p>Kanallara gir, fotoğraf veya dosya paylaş ve Şuura gündemini tek yerde tut.</p><div className="actions"><a className="primary" href="/sohbet"><MessageCircle size={17}/> Sohbeti Aç</a><a className="secondary" href="/galeri"><ImageIcon size={17}/> Galeriye Git</a></div></div></section>
   <footer><div className="brand">{settings.logoUrl?<img className="siteLogo" src={settings.logoUrl} alt=""/>:<span className="mark">YŞ</span>}<span>{settings.siteName}<small>{settings.tagline}</small></span></div><p>{settings.footerText}</p></footer>
 
-  {login&&<div className="modal" onMouseDown={e=>e.target===e.currentTarget&&setLogin(false)}><div className="loginBox"><button className="close" onClick={()=>setLogin(false)}><X/></button><div className="loginIcon"><ShieldCheck/></div><span className="mini">ÜYE ALANI</span><h2>Şuura'ya giriş yap</h2><p>Yetkili hesabınla Dijital Şuura'ya eriş.</p><form onSubmit={signIn}><label>E-posta</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} required/><label>Şifre</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} required/><button type="button" className="forgotLink" onClick={forgotPassword} disabled={busy}>Şifremi unuttum</button>{msg&&<div className="error">{msg}</div>}<button className="primary full" disabled={busy}>{busy?"Giriş yapılıyor...":"Giriş Yap"} <ArrowRight size={18}/></button></form></div></div>}
+  {login&&<div className="modal" onMouseDown={e=>e.target===e.currentTarget&&setLogin(false)}><div className="loginBox"><button className="close" aria-label="Giriş penceresini kapat" onClick={()=>setLogin(false)}><X/></button><div className="loginIcon"><ShieldCheck/></div><span className="mini">ÜYE ALANI</span><h2>Şuura'ya giriş yap</h2><p>Yetkili hesabınla Dijital Şuura'ya eriş.</p><form onSubmit={signIn}><label>E-posta</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} required/><label>Şifre</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} required/><button type="button" className="forgotLink" onClick={forgotPassword} disabled={busy}>Şifremi unuttum</button>{msg&&<div className="error">{msg}</div>}<button className="primary full" disabled={busy}>{busy?"Giriş yapılıyor...":"Giriş Yap"} <ArrowRight size={18}/></button></form></div></div>}
  </main>
 }
 function Card({icon,title,text,href}){return <a className="feature" href={href}><div className="featureIcon">{icon}</div><h3>{title}</h3><p>{text}</p><span>Keşfet <ArrowRight size={15}/></span></a>}

@@ -22,3 +22,5 @@
 .profilePage .formTitle span{font-size:10px!important;line-height:1.55!important;margin-top:5px!important}
 .profilePage .notice{font-size:11px!important;line-height:1.6!important;margin:0!important}
 @media(max-width:520px){.profilePage .title{padding:58px 22px 22px!important}.profilePage .profileCard form{padding:24px 20px!important}.profilePage .profileCard footer{padding:16px 20px!important}}
+
+@media(max-width:600px){.profilePage .profileCard button{min-height:44px}.profilePage .profileCard input{width:100%;min-width:0}}
