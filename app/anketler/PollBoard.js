@@ -2,7 +2,7 @@
 import {useEffect,useState} from "react";
 import "./polls.css";
 
-export default function PollBoard({db,admin=false}){
+export default function PollBoard({db,admin=false,canVote=true}){
  const [polls,setPolls]=useState(null),[error,setError]=useState(""),[question,setQuestion]=useState(""),[options,setOptions]=useState(""),[choices,setChoices]=useState({}),[busy,setBusy]=useState(null);
  async function load(){
   const {data,error}=await db.rpc("list_suura_polls");
@@ -41,7 +41,7 @@ export default function PollBoard({db,admin=false}){
      const count=Number(poll.counts[index]||0),percent=total?Math.round(count*100/total):0;
      return <li key={index}><span>{option}{poll.choice===index+1?" · Senin oyun":""}</span><strong>{count} oy · %{percent}</strong><progress value={percent} max={100} aria-label={option}/></li>;
     })}</ul></>}
-    {!admin&&!poll.closed_at&&!poll.choice&&<form onSubmit={event=>{event.preventDefault();void run("vote_suura_poll",{p_poll_id:poll.id,p_choice:choices[poll.id]},poll.id)}}>
+    {!admin&&canVote&&!poll.closed_at&&!poll.choice&&<form onSubmit={event=>{event.preventDefault();void run("vote_suura_poll",{p_poll_id:poll.id,p_choice:choices[poll.id]},poll.id)}}>
      <fieldset><legend>Bir seçenek seç</legend>{poll.options.map((option,index)=><label className="pollOption" key={index}><input type="radio" name={`poll-${poll.id}`} checked={choices[poll.id]===index+1} onChange={()=>setChoices(previous=>({...previous,[poll.id]:index+1}))}/>{option}</label>)}</fieldset>
      <button disabled={!choices[poll.id]||busy!==null}>Oy ver</button>
     </form>}
