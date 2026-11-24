@@ -1,0 +1,13 @@
+.voicePage{width:min(100% - 32px,680px);margin:36px auto;padding:20px;border:1px solid #263329;border-radius:16px;background:#0d120f}
+.voicePage a{color:#b8ff88}
+.voicePage h1{font-size:clamp(28px,7vw,44px);margin:20px 0 10px}
+.voicePage h2{font-size:20px}
+.voiceControls{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.voicePage button,.voicePage select{min-height:44px;padding:8px 14px;background:#172219;border:1px solid #3b523a;border-radius:8px;color:#eef7ef}
+.voicePage button{cursor:pointer}
+.voicePage button[aria-pressed=true]{background:#32201e}
+.voicePage label{display:grid;gap:6px;margin-top:20px}
+.voicePage select{width:100%}
+.voicePage ul{list-style:none;padding:0}
+.voicePage li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid #263329}
+.voicePage [role=alert]{color:#ffaba5}
