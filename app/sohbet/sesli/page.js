@@ -1,6 +1,7 @@
 "use client";
 import {useEffect,useRef,useState} from "react";
 import {createClient} from "@supabase/supabase-js";
+import {ArrowUpRight,Hash,Mic,MicOff,PhoneOff,SlidersHorizontal,Volume2} from "lucide-react";
 import "./voice.css";
 
 const db=createClient("https://kzhklbtdyzinfacaotuh.supabase.co","sb_publishable__FvHp-RV7UHiWF0H9Y5Tug_yfMGyTX9");
@@ -160,24 +161,52 @@ export default function VoiceRoom(){
   track.enabled=!track.enabled;setMuted(!track.enabled);void current.trackPresence();
  }
 
- return <main className="voicePage">
-  <a href="/sohbet">← Yazılı sohbete dön</a>
-  <h1>Genel Sesli Oda</h1>
-  {checking?<p role="status">Üyelik kontrol ediliyor…</p>:!member?<p>Sesli odaya katılmak için aktif üye hesabınla <a href="/">giriş yap</a>.</p>:<>
-   <p>Mikrofon izni, odaya katılırken istenir.</p>
-   <div className="voiceControls">
-    {status==="idle"?<button type="button" onClick={join}>Odaya katıl</button>:<button type="button" onClick={()=>disconnect()}>{status==="joining"?"Bağlanmayı iptal et":"Odadan ayrıl"}</button>}
-    {status==="joined"&&<button type="button" aria-pressed={muted} onClick={toggleMute}>{muted?"Mikrofonu aç":"Mikrofonu sustur"}</button>}
+ const joined=status==="joined";
+ const connecting=status==="joining";
+ const initial=name=>[...name.trim()][0]?.toLocaleUpperCase("tr-TR")||"Ü";
+
+ return <main className="voiceWorkspace">
+  <aside className="voiceRail">
+   <a className="voiceBrand" href="/"><span>YŞ</span><strong>Yüksek Şuura</strong></a>
+   <nav aria-label="Sohbet kanalları">
+    <a href="/sohbet"><Hash size={18}/> Yazılı sohbet <ArrowUpRight size={15}/></a>
+    <a href="/sohbet/sesli" aria-current="page"><Volume2 size={18}/> Genel Sesli Oda</a>
+   </nav>
+   <div className="voiceIdentity">
+    {member&&<><span className="voiceAvatar">{initial(member.name)}</span><strong>{member.name}</strong></>}
+    <span className={joined?"voiceConnected":"voiceDisconnected"}>{joined?"Ses bağlı":connecting?"Bağlanıyor":"Bağlantı yok"}</span>
    </div>
-   {status==="joining"&&<p role="status">Odaya bağlanılıyor…</p>}
-   {error&&<p role="alert">{error}</p>}
-   {status==="joined"&&<>
-    <label>Mikrofon<select value={device} onChange={event=>void selectMicrophone(event.target.value)}><option value="">Varsayılan mikrofon</option>{devices.filter(item=>item.deviceId&&item.deviceId!=="default").map((item,index)=><option key={item.deviceId} value={item.deviceId}>{item.label||`Mikrofon ${index+1}`}</option>)}</select></label>
-    <h2>Katılımcılar</h2>
-    <ul>{participants.map(person=><li key={person.id}><span>{person.name}{person.id===room.current?.id?" (sen)":""}</span><span>{connections[person.id]==="failed"?"Bağlanamadı":person.muted?"Mikrofon kapalı":person.id===room.current?.id||connections[person.id]==="connected"?"Mikrofon açık":"Bağlanıyor…"}</span></li>)}</ul>
-    {Object.entries(streams).map(([id,stream])=><RemoteAudio key={id} stream={stream}/>)}
-   </>}
-  </>}
+  </aside>
+
+  <div className="voiceRoom">
+   <header className="voiceRoomHeader"><Volume2 size={23}/><h1>Genel Sesli Oda</h1>{joined&&<span>{participants.length} katılımcı</span>}</header>
+   <div className="voiceStage">
+    {joined?<ul className="voiceParticipants" aria-label="Odadaki katılımcılar">
+     {participants.map(person=>{
+      const own=person.id===room.current?.id;
+      const connection=connections[person.id];
+      const label=connection==="failed"?"Bağlanamadı":person.muted?"Mikrofon kapalı":own||connection==="connected"?"Mikrofon açık":"Bağlanıyor…";
+      return <li key={person.id}>
+       <span className="voiceAvatar">{initial(person.name)}</span>
+       <strong>{person.name}{own?" (sen)":""}</strong>
+       <span className="voiceParticipantState">{person.muted?<MicOff size={15}/>:<Mic size={15}/>} {label}</span>
+      </li>;
+     })}
+    </ul>:<div className="voiceLobby">
+     <span className="voiceLobbyIcon"><Volume2 size={32}/></span>
+     {checking?<p role="status">Üyelik kontrol ediliyor…</p>:connecting?<p role="status">Odaya bağlanılıyor…</p>:member?<p>Mikrofon izni odaya katılırken istenir.</p>:<p>Katılmak için aktif üye hesabınla <a href="/">giriş yap</a>.</p>}
+    </div>}
+    {error&&<p className="voiceError" role="alert">{error}</p>}
+    {joined&&Object.entries(streams).map(([id,stream])=><RemoteAudio key={id} stream={stream}/>)}
+   </div>
+   {member&&<footer className="voiceDock">
+    {joined&&<>
+     <button type="button" aria-pressed={muted} onClick={toggleMute}>{muted?<MicOff size={19}/>:<Mic size={19}/>} {muted?"Mikrofonu aç":"Mikrofonu sustur"}</button>
+     <label className="voiceDevice"><SlidersHorizontal size={19}/><span className="voiceSrOnly">Mikrofon seç</span><select value={device} onChange={event=>void selectMicrophone(event.target.value)}><option value="">Varsayılan mikrofon</option>{devices.filter(item=>item.deviceId&&item.deviceId!=="default").map((item,index)=><option key={item.deviceId} value={item.deviceId}>{item.label||`Mikrofon ${index+1}`}</option>)}</select></label>
+    </>}
+    {status==="idle"?<button className="voiceJoin" type="button" onClick={join}><Volume2 size={19}/> Odaya katıl</button>:<button className="voiceLeave" type="button" onClick={()=>disconnect()}><PhoneOff size={19}/> {connecting?"İptal et":"Odadan ayrıl"}</button>}
+   </footer>}
+  </div>
  </main>;
 }
 
